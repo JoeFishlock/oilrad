@@ -24,6 +24,9 @@ from gulf.optics import (
     calculate_ice_scattering_coefficient_from_Roche_2022,
 )
 from dataclasses import dataclass
+from gulf.black_body import solar_irradiance
+from typing import Callable
+from scipy.integrate import quad
 
 ########################
 #  Albedo calculation  #
@@ -253,3 +256,17 @@ def make_piecewise(func1, func2, boundary):
         return output
 
     return piecewise_function
+
+
+def PAR_heating(
+    model: TwoLayerModel, solar_irradiance: Callable[[float], float]
+) -> Callable[[float], float]:
+    """Turned quad integrator accuracy down as I think the course wavelength data
+    is causing it to fail to converge"""
+    PAR_BOUNDS = (350, 700)
+    return lambda z: quad(
+        lambda L: solar_irradiance(L) * model.heating(z, L),
+        *PAR_BOUNDS,
+        epsabs=1e-3,
+        epsrel=1e-3
+    )[0]

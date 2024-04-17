@@ -1,7 +1,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from gulf.two_layer import calculate_albedo, TwoLayerModel
+from gulf.two_layer import calculate_albedo, TwoLayerModel, PAR_heating
+from gulf.black_body import solar_irradiance
 from gulf.single_layer import calculate_albedo as single_layer_albedo
+from scipy.integrate import quad
 
 wavelengths = np.linspace(350, 750, 1000)
 OIL = 100
@@ -116,6 +118,7 @@ ice_type = "FYI"
 
 model = TwoLayerModel(oil, f, h, ice_type)
 no_oil = TwoLayerModel(0, f, h, ice_type)
+uniform = TwoLayerModel(oil, 0.99, h, ice_type)
 
 
 plt.figure()
@@ -150,3 +153,39 @@ plt.xlabel("radiative heating")
 plt.ylabel("depth (m)")
 plt.legend()
 plt.savefig("figures/two_layer/two_layer_heating.pdf")
+
+# Integrate over PAR range using solar irradiance blackbody
+z = np.linspace(-ICE_THICKNESS, 0, 15)
+solar_irradiance_func = lambda L: solar_irradiance(L, environment_conditions=3)
+incident_PAR_flux = quad(solar_irradiance_func, 350, 700)[0]
+
+# Have to manually vectorize the function here as using boolean indexing in the
+# TwoLayerModel class
+oil_PAR_heating = [
+    PAR_heating(model, solar_irradiance=solar_irradiance_func)(np.array([depth]))
+    for depth in z
+]
+print("1/3 heating profiles integrated 350nm-700nm")
+no_oil_PAR_heating = [
+    PAR_heating(no_oil, solar_irradiance=solar_irradiance_func)(np.array([depth]))
+    for depth in z
+]
+print("2/3 heating profiles integrated 350nm-700nm")
+uniform_oil_PAR_heating = [
+    PAR_heating(uniform, solar_irradiance=solar_irradiance_func)(np.array([depth]))
+    for depth in z
+]
+print("3/3 heating profiles integrated 350nm-700nm")
+plt.figure()
+plt.title(
+    f"350nm-700nm heating {ice_type} {h}m thick, incident DSW {incident_PAR_flux:.1f}W/m2"
+)
+plt.plot(oil_PAR_heating, z, "ro--", label=f"2layer {oil}ng oil/g ice")
+plt.plot(no_oil_PAR_heating, z, "bo--", label="no oil")
+plt.plot(uniform_oil_PAR_heating, z, "go--", label=f"uniform {oil}ng oil/g ice")
+plt.axhline(y=-f * h, ls=":", color="k", label="oil layer boundary")
+plt.xlabel("wavelength integrated radiative heating W/m3")
+plt.ylabel("depth (m)")
+plt.legend()
+plt.grid(True)
+plt.savefig("figures/two_layer/two_layer_PAR_heating.pdf")
