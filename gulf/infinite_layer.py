@@ -46,24 +46,25 @@ class InfiniteLayerModel:
         return solution
 
     @property
-    def get_upwelling_and_downwelling(self):
-        upwelling = lambda z, L: self._get_system_solution(L)(z)[0]
-        downwelling = lambda z, L: self._get_system_solution(L)(z)[1]
-        return upwelling, downwelling
-
-    @property
-    def albedo(self):
-        albedo = lambda L: self.get_upwelling_and_downwelling[0](0, L)
-        return np.vectorize(albedo)
+    def upwelling(self):
+        return lambda z, L: self._get_system_solution(L)(z)[0]
 
     @property
     def downwelling(self):
-        pass
+        return lambda z, L: self._get_system_solution(L)(z)[1]
 
     @property
-    def upwelling(self):
-        pass
+    def albedo(self):
+        albedo = lambda L: self.upwelling(0, L)
+        return np.vectorize(albedo)
+
+    @property
+    def transmittance(self):
+        transmittance = lambda L: self.downwelling(-self.ice_thickness, L)
+        return np.vectorize(transmittance)
 
     @property
     def heating(self):
-        pass
+        return lambda z, L: self.k(z, L) * (
+            self.upwelling(z, L) + self.downwelling(z, L)
+        )

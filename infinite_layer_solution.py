@@ -24,13 +24,13 @@ uniform_oil_model = InfiniteLayerModel(
 plt.figure()
 plt.title(f"planar irradiances for {ICE_TYPE} at {H}m thick, 400nm (blue), 700nm (red)")
 
-upwelling, downwelling = linear_oil_model.get_upwelling_and_downwelling
+upwelling, downwelling = linear_oil_model.upwelling, linear_oil_model.downwelling
 plt.plot(downwelling(z, 400), z, "b", label=f"linear oil conc")
 plt.plot(upwelling(z, 400), z, "b", alpha=0.2)
 plt.plot(downwelling(z, 700), z, "r")
 plt.plot(upwelling(z, 700), z, "r", alpha=0.2)
 
-upwelling, downwelling = uniform_oil_model.get_upwelling_and_downwelling
+upwelling, downwelling = uniform_oil_model.upwelling, uniform_oil_model.downwelling
 plt.plot(downwelling(z, 400), z, "b--", label=f"uniform {uniform_conc}ng oil/g ice")
 plt.plot(upwelling(z, 400), z, "b--", alpha=0.2)
 plt.plot(downwelling(z, 700), z, "r--")
