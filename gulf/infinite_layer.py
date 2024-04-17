@@ -53,7 +53,8 @@ class InfiniteLayerModel:
 
     @property
     def albedo(self):
-        return lambda L: self.get_upwelling_and_downwelling[0](0, L)
+        albedo = lambda L: self.get_upwelling_and_downwelling[0](0, L)
+        return np.vectorize(albedo)
 
     @property
     def downwelling(self):
