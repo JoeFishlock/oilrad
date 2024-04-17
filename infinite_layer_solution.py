@@ -52,3 +52,27 @@ plt.ylabel("spectral albedo")
 plt.legend()
 plt.grid(True)
 plt.savefig("figures/infinite_layer/spectral_albedo.pdf")
+
+plt.figure()
+plt.title("shortwave radiative heating at 400nm")
+for model, label in zip(
+    [linear_oil_model, uniform_oil_model], ["linear oil conc", "uniform oil conc"]
+):
+    plt.plot(model.heating(z, 400), z, label=label)
+plt.xlabel("non dimensional radiative heating")
+plt.ylabel("depth (m)")
+plt.legend()
+plt.grid(True)
+plt.savefig("figures/infinite_layer/radiative_heating.pdf")
+
+plt.figure()
+plt.title("spectral transmittance")
+for model, label in zip(
+    [linear_oil_model, uniform_oil_model], ["linear oil conc", "uniform oil conc"]
+):
+    plt.plot(wavelengths, model.transmittance(wavelengths), label=label)
+plt.xlabel("wavelength (nm)")
+plt.ylabel("spectral transmittance")
+plt.legend()
+plt.grid(True)
+plt.savefig("figures/infinite_layer/spectral_transmittance.pdf")
