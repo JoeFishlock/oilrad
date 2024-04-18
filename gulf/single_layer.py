@@ -17,7 +17,7 @@ from gulf.optics import (
     calculate_ice_scattering_coefficient_from_Roche_2022,
 )
 from dataclasses import dataclass
-from gulf.two_stream_model import AbstractModel
+from gulf.abstract_model import AbstractModel
 
 
 @dataclass
