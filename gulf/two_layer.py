@@ -31,7 +31,7 @@ from scipy.integrate import quad
 
 @dataclass
 class TwoLayerModel(AbstractModel):
-    uniform_oil_mass_ratio: float
+    oil_mass_ratio: float
     thickness_ratio: float
     ice_thickness: float
     ice_type: str
