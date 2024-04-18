@@ -1,5 +1,6 @@
 """Module to calculate the optical properties for ice and ice containing oil droplets"""
 
+from pathlib import Path
 import numpy as np
 
 """Load data for imaginary refractive index against wavelength from
@@ -8,7 +9,9 @@ doi:10.1029/2007JD009744.
 To interpolate the data to other wavelengths should interpolate the log of the data
 linearly.
 """
-WARREN_DATA = np.loadtxt("oilrad/data/Warren_2008_ice_refractive_index.dat")
+
+DATADIR = Path(__file__).parent / "data"
+WARREN_DATA = np.loadtxt(DATADIR / "Warren_2008_ice_refractive_index.dat")
 WARREN_WAVELENGTHS = WARREN_DATA[:, 0]  # in microns
 WARREN_IMAGINARY_REFRACTIVE_INDEX = WARREN_DATA[:, 2]  # dimensionless
 
