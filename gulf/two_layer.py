@@ -27,10 +27,6 @@ from dataclasses import dataclass
 from typing import Callable
 from scipy.integrate import quad
 
-#######################################
-#  Upwelling / downwelling radiation  #
-#######################################
-
 
 @dataclass
 class TwoLayerModel:
@@ -47,100 +43,84 @@ class TwoLayerModel:
     def r(self):
         return calculate_ice_scattering_coefficient_from_Roche_2022(self.ice_type)
 
-    @property
-    def k1(self):
-        return lambda L: calculate_ice_oil_absorption_coefficient(
+    def k1(self, L):
+        return calculate_ice_oil_absorption_coefficient(
             L, oil_mass_ratio=self.top_oil_mass_ratio
         )
 
-    @property
-    def k2(self):
-        return lambda L: calculate_ice_oil_absorption_coefficient(L, oil_mass_ratio=0)
+    def k2(self, L):
+        return calculate_ice_oil_absorption_coefficient(L, oil_mass_ratio=0)
 
-    @property
-    def mu1(self):
-        return lambda L: calculate_ice_oil_extinction_coefficient(
+    def mu1(self, L):
+        return calculate_ice_oil_extinction_coefficient(
             L, oil_mass_ratio=self.top_oil_mass_ratio, ice_type=self.ice_type
         )
 
-    @property
-    def mu2(self):
-        return lambda L: calculate_ice_oil_extinction_coefficient(
+    def mu2(self, L):
+        return calculate_ice_oil_extinction_coefficient(
             L, oil_mass_ratio=0, ice_type=self.ice_type
         )
 
-    @property
-    def s1(self):
-        return lambda L: (self.mu1(L) - self.k1(L)) / (self.mu1(L) + self.k1(L))
+    def s1(self, L):
+        return (self.mu1(L) - self.k1(L)) / (self.mu1(L) + self.k1(L))
 
-    @property
-    def s2(self):
-        return lambda L: (self.mu2(L) - self.k2(L)) / (self.mu2(L) + self.k2(L))
+    def s2(self, L):
+        return (self.mu2(L) - self.k2(L)) / (self.mu2(L) + self.k2(L))
 
-    @property
-    def optical_depth1(self):
-        return lambda L: self.thickness_ratio * self.ice_thickness * self.mu1(L)
+    def optical_depth1(self, L):
+        return self.thickness_ratio * self.ice_thickness * self.mu1(L)
 
-    @property
-    def optical_depth2(self):
-        return lambda L: (1 - self.thickness_ratio) * self.ice_thickness * self.mu2(L)
+    def optical_depth2(self, L):
+        return (1 - self.thickness_ratio) * self.ice_thickness * self.mu2(L)
 
-    @property
-    def gamma1(self):
-        return lambda L: self.r / (
+    def gamma1(self, L):
+        return self.r / (
             (self.mu1(L) / np.tanh(self.optical_depth1(L))) + self.k1(L) + self.r
         )
 
-    @property
-    def gamma2(self):
-        return lambda L: self.r / (
+    def gamma2(self, L):
+        return self.r / (
             (self.mu2(L) / np.tanh(self.optical_depth2(L))) + self.k2(L) + self.r
         )
 
-    @property
-    def A2(self):
+    def A2(self, L):
         return (
-            lambda L: (self.r / self.mu1(L))
+            (self.r / self.mu1(L))
             * np.sinh(self.optical_depth1(L))
             * ((self.albedo(L) / self.gamma1(L)) - 1)
         )
 
-    @property
-    def albedo(self):
-        numerator = lambda L: (self.mu1(L) / np.tanh(self.optical_depth1(L))) - (
+    def albedo(self, L):
+        numerator = (self.mu1(L) / np.tanh(self.optical_depth1(L))) - (
             self.k1(L) + self.r
         )
-        denominator = lambda L: (self.mu2(L) / np.tanh(self.optical_depth2(L))) + (
+        denominator = (self.mu2(L) / np.tanh(self.optical_depth2(L))) + (
             self.k2(L) + self.r
         )
-        return lambda L: (self.gamma1(L) / (1 - self.gamma1(L) * self.gamma2(L))) * (
-            1 + (numerator(L) / denominator(L))
+        return (self.gamma1(L) / (1 - self.gamma1(L) * self.gamma2(L))) * (
+            1 + (numerator / denominator)
         )
 
-    @property
-    def _upwelling_1(self):
-        return lambda z, L: (self.r / (2 * self.mu1(L))) * (
+    def _upwelling_1(self, z, L):
+        return (self.r / (2 * self.mu1(L))) * (
             (1 - self.albedo(L) * self.s1(L)) * np.exp(self.mu1(L) * z)
             + ((self.albedo(L) / self.s1(L)) - 1) * np.exp(-self.mu1(L) * z)
         )
 
-    @property
-    def _downwelling_1(self):
-        return lambda z, L: (self.r / (2 * self.mu1(L))) * (
+    def _downwelling_1(self, z, L):
+        return (self.r / (2 * self.mu1(L))) * (
             ((1 / self.s1(L)) - self.albedo(L)) * np.exp(self.mu1(L) * z)
             + (self.albedo(L) - self.s1(L)) * np.exp(-self.mu1(L) * z)
         )
 
-    @property
-    def _upwelling_2(self):
-        return lambda z, L: (self.A2(L) / 2) * (
+    def _upwelling_2(self, z, L):
+        return (self.A2(L) / 2) * (
             (1 + (1 / np.tanh(self.optical_depth2(L)))) * np.exp(self.mu2(L) * z)
             + (1 - (1 / np.tanh(self.optical_depth2(L)))) * np.exp(-self.mu2(L) * z)
         )
 
-    @property
-    def _downwelling_2(self):
-        return lambda z, L: (self.A2(L) / 2) * (
+    def _downwelling_2(self, z, L):
+        return (self.A2(L) / 2) * (
             ((1 + (1 / np.tanh(self.optical_depth2(L)))) / self.s2(L))
             * np.exp(self.mu2(L) * z)
             - self.s2(L)
@@ -148,47 +128,19 @@ class TwoLayerModel:
             * np.exp(-self.mu2(L) * z)
         )
 
-    # @property
-    # def downwelling(self):
-    #     def piecewise(z, L):
-    #         output = np.empty_like(z)
-    #         is_region_1 = z >= -self.thickness_ratio * self.ice_thickness
-    #         output[is_region_1] = self._downwelling_1(z[is_region_1], L)
-    #         output[~is_region_1] = self._downwelling_2(
-    #             z[~is_region_1] + self.ice_thickness * self.thickness_ratio, L
-    #         )
-    #         return output
-
-    #     return piecewise
-
-    @property
-    def downwelling(self):
+    def downwelling(self, z, L):
         return make_piecewise(
             self._downwelling_1,
             self._downwelling_2,
             boundary=-self.ice_thickness * self.thickness_ratio,
-        )
+        )(z, L)
 
-    @property
-    def upwelling(self):
+    def upwelling(self, z, L):
         return make_piecewise(
             self._upwelling_1,
             self._upwelling_2,
             boundary=-self.ice_thickness * self.thickness_ratio,
-        )
-
-    #     @property
-    #     def upwelling(self):
-    #         def piecewise(z, L):
-    #             output = np.empty_like(z)
-    #             is_region_1 = z >= -self.thickness_ratio * self.ice_thickness
-    #             output[is_region_1] = self._upwelling_1(z[is_region_1], L)
-    #             output[~is_region_1] = self._upwelling_2(
-    #                 z[~is_region_1] + self.ice_thickness * self.thickness_ratio, L
-    #             )
-    #             return output
-
-    #         return piecewise
+        )(z, L)
 
     @property
     def k_cts(self):
@@ -201,11 +153,8 @@ class TwoLayerModel:
 
         return piecewise
 
-    @property
-    def heating(self):
-        return lambda z, L: self.k_cts(z, L) * (
-            self.upwelling(z, L) + self.downwelling(z, L)
-        )
+    def heating(self, z, L):
+        return self.k_cts(z, L) * (self.upwelling(z, L) + self.downwelling(z, L))
 
 
 def make_piecewise(func1, func2, boundary):
