@@ -10,7 +10,7 @@ variations will be smoothed"""
 
 import numpy as np
 import matplotlib.pyplot as plt
-from gulf.infinite_layer import InfiniteLayerModel
+from oilrad.infinite_layer import InfiniteLayerModel
 
 H = 2
 ICE_TYPE = "FYI"

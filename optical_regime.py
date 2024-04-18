@@ -1,5 +1,5 @@
 import matplotlib.pyplot as plt
-from gulf.optics import calculate_ice_oil_extinction_coefficient
+from oilrad.optics import calculate_ice_oil_extinction_coefficient
 import numpy as np
 
 plt.figure()

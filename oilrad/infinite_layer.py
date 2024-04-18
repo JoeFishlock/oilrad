@@ -1,11 +1,11 @@
 """Solve the model with continuously varying optical parameters"""
 
 import numpy as np
-from gulf.optics import (
+from oilrad.optics import (
     calculate_ice_oil_absorption_coefficient,
     calculate_ice_scattering_coefficient_from_Roche_2022,
 )
-from gulf.abstract_model import AbstractModel
+from oilrad.abstract_model import AbstractModel
 from dataclasses import dataclass
 from typing import Callable
 from scipy.integrate import solve_bvp

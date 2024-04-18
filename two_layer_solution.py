@@ -1,8 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from gulf.two_layer import PAR_heating
-from gulf.two_stream_model import get_two_stream_model
-from gulf.black_body import solar_irradiance
+from oilrad.two_layer import PAR_heating
+from oilrad.two_stream_model import get_two_stream_model
+from oilrad.black_body import solar_irradiance
 from scipy.integrate import quad
 
 wavelengths = np.linspace(350, 750, 1000)

@@ -8,7 +8,7 @@ Perovich 1990 when using scattering value for white ice interior.
 """
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mticker
-from gulf.optics import (
+from oilrad.optics import (
     WARREN_WAVELENGTHS,
     calculate_ice_absorption_coefficient,
     calculate_ice_extinction_coefficient,

@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
-from gulf.black_body import solar_irradiance
+from oilrad.black_body import solar_irradiance
 
 
 plt.figure()

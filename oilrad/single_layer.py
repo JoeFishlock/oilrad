@@ -11,13 +11,13 @@ scattering and absorption coefficients (1/m) from optics module
 """
 
 import numpy as np
-from gulf.optics import (
+from oilrad.optics import (
     calculate_ice_oil_absorption_coefficient,
     calculate_ice_oil_extinction_coefficient,
     calculate_ice_scattering_coefficient_from_Roche_2022,
 )
 from dataclasses import dataclass
-from gulf.abstract_model import AbstractModel
+from oilrad.abstract_model import AbstractModel
 
 
 @dataclass

@@ -27,7 +27,7 @@ if __name__ == "__main__":
     # dictionary with radius in microns as key and data for MAC against wavelength
     Romashkino = {}
     for droplet_size in Romashkino_droplet_size:
-        with open(f"gulf/data/MassAbsCoe/Romashkino/MAC_{droplet_size}.dat") as file:
+        with open(f"oilrad/data/MassAbsCoe/Romashkino/MAC_{droplet_size}.dat") as file:
             lines = list(file)[1:]
             data = np.loadtxt(lines, delimiter=",")
         Romashkino[droplet_size] = data

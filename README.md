@@ -1,4 +1,4 @@
-# GULF #
+# OILRAD #
 
 dependencies: matplotlib
 

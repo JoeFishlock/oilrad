@@ -1,4 +1,4 @@
-from gulf.infinite_layer import InfiniteLayerModel
+from oilrad.infinite_layer import InfiniteLayerModel
 import numpy as np
 import matplotlib.pyplot as plt
 

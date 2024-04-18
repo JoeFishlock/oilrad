@@ -8,7 +8,7 @@ doi:10.1029/2007JD009744.
 To interpolate the data to other wavelengths should interpolate the log of the data
 linearly.
 """
-WARREN_DATA = np.loadtxt("gulf/data/Warren_2008_ice_refractive_index.dat")
+WARREN_DATA = np.loadtxt("oilrad/data/Warren_2008_ice_refractive_index.dat")
 WARREN_WAVELENGTHS = WARREN_DATA[:, 0]  # in microns
 WARREN_IMAGINARY_REFRACTIVE_INDEX = WARREN_DATA[:, 2]  # dimensionless
 

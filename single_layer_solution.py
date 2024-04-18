@@ -1,6 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from gulf.two_stream_model import get_two_stream_model
+from oilrad.two_stream_model import get_two_stream_model
 
 plt.style.use(["science", "nature", "grid"])
 

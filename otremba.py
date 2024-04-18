@@ -5,7 +5,7 @@ Just use data for oil absorption from Otremba 2007 Table 1
 
 import numpy as np
 import matplotlib.pyplot as plt
-from gulf.optics import (
+from oilrad.optics import (
     calculate_ice_absorption_coefficient,
     calculate_ice_oil_absorption_coefficient,
     calculate_ice_oil_extinction_coefficient,

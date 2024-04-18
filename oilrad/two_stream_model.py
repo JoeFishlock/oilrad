@@ -4,9 +4,9 @@ will provide methods to determine the upwelling radiation, downwelling radiation
 the radiative heating as functions of depth and wavelength. It will also provide
 methods for the spectral albedo and transmission."""
 
-from gulf.single_layer import SingleLayerModel
-from gulf.two_layer import TwoLayerModel
-from gulf.infinite_layer import InfiniteLayerModel
+from oilrad.single_layer import SingleLayerModel
+from oilrad.two_layer import TwoLayerModel
+from oilrad.infinite_layer import InfiniteLayerModel
 
 
 def get_two_stream_model(model_choice: str, **kwargs):
