@@ -24,47 +24,8 @@ from gulf.optics import (
     calculate_ice_scattering_coefficient_from_Roche_2022,
 )
 from dataclasses import dataclass
-from gulf.black_body import solar_irradiance
 from typing import Callable
 from scipy.integrate import quad
-
-########################
-#  Albedo calculation  #
-########################
-
-
-def calculate_gamma(r, k, mu, layer_thickness):
-    return r / ((mu / np.tanh(mu * layer_thickness)) + k + r)
-
-
-def calculate_albedo(
-    ice_thickness, wavelength_in_nm, oil_mass_ratio, ice_type: str, thickness_ratio
-):
-    """calculate spectral alebdo for wavelength in nm in two layer ice.
-    oil mass ratio (ng oil/g ice) in uniform model
-    ice_type for scattering coefficient
-    ice thickness ratio for oil layer
-    """
-    r = calculate_ice_scattering_coefficient_from_Roche_2022(ice_type)
-
-    top_oil = oil_mass_ratio / thickness_ratio
-    k1 = calculate_ice_oil_absorption_coefficient(wavelength_in_nm, top_oil)
-    mu1 = calculate_ice_oil_extinction_coefficient(wavelength_in_nm, top_oil, ice_type)
-
-    k2 = calculate_ice_oil_absorption_coefficient(wavelength_in_nm, 0)
-    mu2 = calculate_ice_oil_extinction_coefficient(wavelength_in_nm, 0, ice_type)
-
-    gamma1 = calculate_gamma(r, k1, mu1, ice_thickness * thickness_ratio)
-    gamma2 = calculate_gamma(r, k2, mu2, ice_thickness * (1 - thickness_ratio))
-
-    optical_depth1 = ice_thickness * thickness_ratio * mu1
-    optical_depth2 = ice_thickness * (1 - thickness_ratio) * mu2
-
-    numerator = (mu1 / np.tanh(optical_depth1)) - (k1 + r)
-    denominator = (mu2 / np.tanh(optical_depth2)) + (k2 + r)
-
-    return (gamma1 / (1 - gamma1 * gamma2)) * (1 + (numerator / denominator))
-
 
 #######################################
 #  Upwelling / downwelling radiation  #

@@ -1,6 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from gulf.two_layer import calculate_albedo, TwoLayerModel, PAR_heating
+from gulf.two_layer import TwoLayerModel, PAR_heating
 from gulf.black_body import solar_irradiance
 from gulf.single_layer import calculate_albedo as single_layer_albedo
 from scipy.integrate import quad
@@ -19,16 +19,15 @@ plt.title(
 )
 unpolluted_albedo = single_layer_albedo(ICE_THICKNESS, wavelengths, 0, ICE_TYPE)
 for thickness_ratio in [0.05, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 0.99]:
-    albedo = calculate_albedo(
-        ICE_THICKNESS,
-        wavelengths,
-        oil_mass_ratio=OIL,
-        ice_type=ICE_TYPE,
+    model = TwoLayerModel(
+        uniform_oil_mass_ratio=OIL,
         thickness_ratio=thickness_ratio,
+        ice_thickness=ICE_THICKNESS,
+        ice_type=ICE_TYPE,
     )
     plt.plot(
         wavelengths,
-        albedo,
+        model.albedo(wavelengths),
         color=str(thickness_ratio),
         label=f"thickness ratio {thickness_ratio}",
     )
@@ -50,14 +49,15 @@ plt.title(
 )
 base_albedo = single_layer_albedo(ICE_THICKNESS, wavelengths, OIL, ICE_TYPE)
 for thickness_ratio in [0.05, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 0.99]:
-    albedo = calculate_albedo(
-        ICE_THICKNESS,
-        wavelengths,
-        oil_mass_ratio=OIL,
-        ice_type=ICE_TYPE,
+    model = TwoLayerModel(
+        uniform_oil_mass_ratio=OIL,
         thickness_ratio=thickness_ratio,
+        ice_thickness=ICE_THICKNESS,
+        ice_type=ICE_TYPE,
     )
-    difference_percentage = 100 * (albedo - base_albedo) / base_albedo
+    difference_percentage = (
+        100 * (model.albedo(wavelengths) - base_albedo) / base_albedo
+    )
     plt.plot(
         wavelengths,
         difference_percentage,
@@ -82,18 +82,27 @@ discrete_wavelengths = [350, 400, 450, 550, 600]
 light_colors = ["m--", "m", "b", "g", "y"]
 f = np.linspace(0.01, 0.99, 200)
 for wavelength, light_color in zip(discrete_wavelengths, light_colors):
-    albedo = calculate_albedo(
-        ICE_THICKNESS,
-        wavelength,
-        oil_mass_ratio=OIL,
-        ice_type=ICE_TYPE,
-        thickness_ratio=f,
-    )
     base_albedo = single_layer_albedo(ICE_THICKNESS, wavelength, OIL, ICE_TYPE)
     unpolluted_albedo = single_layer_albedo(ICE_THICKNESS, wavelength, 0, ICE_TYPE)
     plt.plot(1, unpolluted_albedo, light_color, marker="o", alpha=0.3)
-    plt.plot(f, albedo, light_color, label=f"{wavelength}nm")
     plt.plot(1, base_albedo, light_color, marker="*")
+
+    modeled_albedos = []
+    for thickness_ratio in f:
+        model = TwoLayerModel(
+            uniform_oil_mass_ratio=OIL,
+            thickness_ratio=thickness_ratio,
+            ice_thickness=ICE_THICKNESS,
+            ice_type=ICE_TYPE,
+        )
+        modeled_albedos.append(model.albedo(wavelength))
+
+    plt.plot(
+        f,
+        np.array(modeled_albedos),
+        light_color,
+        label=f"{wavelength}nm",
+    )
 
 # plt.ylim([0, 1])
 plt.legend(frameon=False)
