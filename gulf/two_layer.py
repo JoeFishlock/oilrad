@@ -38,7 +38,7 @@ class TwoLayerModel(AbstractModel):
 
     @property
     def top_oil_mass_ratio(self):
-        return self.uniform_oil_mass_ratio / self.thickness_ratio
+        return self.oil_mass_ratio / self.thickness_ratio
 
     @property
     def r(self):
