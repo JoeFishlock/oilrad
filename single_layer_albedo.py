@@ -1,13 +1,13 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from oilrad.two_stream_model import get_two_stream_model
+from oilrad import two_stream_model
 
 wavelengths = np.linspace(350, 750, 1000)
 
 # show two stream optically thick spectral albedo
 plt.figure()
 for mass_ratio in [0, 1, 10, 100, 200, 1000]:
-    model = get_two_stream_model(
+    model = two_stream_model(
         "1L", oil_mass_ratio=mass_ratio, ice_thickness=1, ice_type="FYI"
     )
     plt.plot(
@@ -28,7 +28,7 @@ ice_thickness = 0.8
 plt.figure()
 plt.title(f"Spectral albedo of FYI {ice_thickness}m thick")
 for mass_ratio in [0, 1, 10, 100, 200, 1000]:
-    model = get_two_stream_model(
+    model = two_stream_model(
         "1L", oil_mass_ratio=mass_ratio, ice_thickness=ice_thickness, ice_type="FYI"
     )
     plt.plot(wavelengths, model.albedo(wavelengths), label=f"{mass_ratio} ng oil/g ice")
@@ -44,7 +44,7 @@ plt.close()
 plt.figure()
 plt.title(f"Spectral albedo of FYI")
 for ice_thickness in np.linspace(0.5, 6, 6):
-    no_oil_model = get_two_stream_model(
+    no_oil_model = two_stream_model(
         "1L", oil_mass_ratio=0, ice_thickness=ice_thickness, ice_type="FYI"
     )
     plt.plot(
@@ -53,7 +53,7 @@ for ice_thickness in np.linspace(0.5, 6, 6):
         label=f"pure ice {ice_thickness:.1f}m",
     )
 for ice_thickness in np.linspace(0.5, 6, 6):
-    oil_model = get_two_stream_model(
+    oil_model = two_stream_model(
         "1L", oil_mass_ratio=200, ice_thickness=ice_thickness, ice_type="FYI"
     )
     plt.plot(
@@ -78,10 +78,10 @@ ice_depths = np.linspace(0.5, 15, 100)
 no_oil_albedo = []
 oil_albedo = []
 for ice_thickness in ice_depths:
-    no_oil_model = get_two_stream_model(
+    no_oil_model = two_stream_model(
         "1L", oil_mass_ratio=0, ice_thickness=ice_thickness, ice_type="FYI"
     )
-    oil_model = get_two_stream_model(
+    oil_model = two_stream_model(
         "1L", oil_mass_ratio=1000, ice_thickness=ice_thickness, ice_type="FYI"
     )
     no_oil_albedo.append(no_oil_model.albedo(400))

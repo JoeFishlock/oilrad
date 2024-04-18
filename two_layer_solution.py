@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from oilrad.two_layer import PAR_heating
-from oilrad.two_stream_model import get_two_stream_model
+from oilrad import two_stream_model
 from oilrad.black_body import solar_irradiance
 from scipy.integrate import quad
 
@@ -17,11 +17,11 @@ ax.set_facecolor("#7c7afc")
 plt.title(
     f"Two layer spectral albedo of {ICE_TYPE} {ICE_THICKNESS}m thick with {OIL}ng oil/g ice"
 )
-unpolluted_albedo = get_two_stream_model(
+unpolluted_albedo = two_stream_model(
     "1L", oil_mass_ratio=0, ice_thickness=ICE_THICKNESS, ice_type=ICE_TYPE
 ).albedo(wavelengths)
 for thickness_ratio in [0.05, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 0.99]:
-    model = get_two_stream_model(
+    model = two_stream_model(
         "2L",
         oil_mass_ratio=OIL,
         thickness_ratio=thickness_ratio,
@@ -50,11 +50,11 @@ ax.set_facecolor("#7c7afc")
 plt.title(
     f"Two layer spectral albedo change of {ICE_TYPE} {ICE_THICKNESS}m thick with {OIL}ng oil/g ice"
 )
-base_albedo = get_two_stream_model(
+base_albedo = two_stream_model(
     "1L", oil_mass_ratio=OIL, ice_thickness=ICE_THICKNESS, ice_type=ICE_TYPE
 ).albedo(wavelengths)
 for thickness_ratio in [0.05, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 0.99]:
-    model = get_two_stream_model(
+    model = two_stream_model(
         "2L",
         oil_mass_ratio=OIL,
         thickness_ratio=thickness_ratio,
@@ -88,10 +88,10 @@ discrete_wavelengths = [350, 400, 450, 550, 600]
 light_colors = ["m--", "m", "b", "g", "y"]
 f = np.linspace(0.01, 0.99, 200)
 for wavelength, light_color in zip(discrete_wavelengths, light_colors):
-    base_albedo = get_two_stream_model(
+    base_albedo = two_stream_model(
         "1L", oil_mass_ratio=OIL, ice_thickness=ICE_THICKNESS, ice_type=ICE_TYPE
     ).albedo(wavelength)
-    unpolluted_albedo = get_two_stream_model(
+    unpolluted_albedo = two_stream_model(
         "1L", oil_mass_ratio=0, ice_thickness=ICE_THICKNESS, ice_type=ICE_TYPE
     ).albedo(wavelength)
     plt.plot(1, unpolluted_albedo, light_color, marker="o", alpha=0.3)
@@ -99,7 +99,7 @@ for wavelength, light_color in zip(discrete_wavelengths, light_colors):
 
     modeled_albedos = []
     for thickness_ratio in f:
-        model = get_two_stream_model(
+        model = two_stream_model(
             "2L",
             oil_mass_ratio=OIL,
             thickness_ratio=thickness_ratio,
@@ -136,13 +136,13 @@ h = 2
 wavelength = 400
 ice_type = "FYI"
 
-model = get_two_stream_model(
+model = two_stream_model(
     "2L", oil_mass_ratio=oil, thickness_ratio=f, ice_thickness=h, ice_type=ice_type
 )
-no_oil = get_two_stream_model(
+no_oil = two_stream_model(
     "2L", oil_mass_ratio=0, thickness_ratio=f, ice_thickness=h, ice_type=ice_type
 )
-uniform = get_two_stream_model(
+uniform = two_stream_model(
     "2L", oil_mass_ratio=oil, thickness_ratio=0.99, ice_thickness=h, ice_type=ice_type
 )
 

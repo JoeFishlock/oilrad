@@ -1,6 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from oilrad.two_stream_model import get_two_stream_model
+from oilrad import two_stream_model
 
 plt.style.use(["science", "nature", "grid"])
 
@@ -9,10 +9,10 @@ ICE_TYPE = "FYI"
 WAVELENGTH = 400
 OIL = 1000
 
-no_oil_model = get_two_stream_model(
+no_oil_model = two_stream_model(
     "1L", oil_mass_ratio=0, ice_thickness=ICE_THICKNESS, ice_type=ICE_TYPE
 )
-oil_model = get_two_stream_model(
+oil_model = two_stream_model(
     "1L", oil_mass_ratio=OIL, ice_thickness=ICE_THICKNESS, ice_type=ICE_TYPE
 )
 
@@ -71,7 +71,7 @@ plt.title(f"Radiative heating at {WAVELENGTH}nm in {ICE_TYPE} {ICE_THICKNESS}m t
 plt.xlabel("Radiative heating / incident solar irradiance")
 plt.ylabel("Depth (m)")
 for oil_mass_ratio in [0, 1, 10, 100, 1000]:
-    model = get_two_stream_model(
+    model = two_stream_model(
         "1L",
         oil_mass_ratio=oil_mass_ratio,
         ice_thickness=ICE_THICKNESS,
@@ -96,7 +96,7 @@ plt.xlabel("Radiative heating / radiative heating no oil (%)")
 plt.ylabel("Depth (m)")
 base_heating = no_oil_model.heating(z, WAVELENGTH)
 for oil_mass_ratio in [0, 1, 10, 100]:
-    model = get_two_stream_model(
+    model = two_stream_model(
         "1L",
         oil_mass_ratio=oil_mass_ratio,
         ice_thickness=ICE_THICKNESS,

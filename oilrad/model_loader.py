@@ -9,6 +9,6 @@ from oilrad.two_layer import TwoLayerModel
 from oilrad.infinite_layer import InfiniteLayerModel
 
 
-def get_two_stream_model(model_choice: str, **kwargs):
+def two_stream_model(model_choice: str, **kwargs):
     MODELS = {"1L": SingleLayerModel, "2L": TwoLayerModel, "IL": InfiniteLayerModel}
     return MODELS[model_choice](**kwargs)
