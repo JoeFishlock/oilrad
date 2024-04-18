@@ -22,49 +22,40 @@ class InfiniteLayerModel:
     def r(self):
         return calculate_ice_scattering_coefficient_from_Roche_2022(self.ice_type)
 
-    @property
-    def k(self):
-        return lambda z, L: calculate_ice_oil_absorption_coefficient(
+    def k(self, z, L):
+        return calculate_ice_oil_absorption_coefficient(
             L, oil_mass_ratio=self.oil_mass_ratio(z)
         )
 
-    def get_ODE_fun(self, L):
-        upwelling_part = lambda z, F: -(self.k(z, L) + self.r) * F[0] + self.r * F[1]
-        downwelling_part = lambda z, F: (self.k(z, L) + self.r) * F[1] - self.r * F[0]
-        return lambda z, F: np.vstack((upwelling_part(z, F), downwelling_part(z, F)))
+    def _ODE_fun(self, z, F, L):
+        upwelling_part = -(self.k(z, L) + self.r) * F[0] + self.r * F[1]
+        downwelling_part = (self.k(z, L) + self.r) * F[1] - self.r * F[0]
+        return np.vstack((upwelling_part, downwelling_part))
 
-    @property
-    def BCs(self):
+    def _BCs(self, F_bottom, F_top):
         """Doesn't depend on wavelength"""
-        return lambda F_bottom, F_top: np.array([F_top[1] - 1, F_bottom[0]])
+        return np.array([F_top[1] - 1, F_bottom[0]])
 
     def _get_system_solution(self, L):
-        ODE_fun = self.get_ODE_fun(L)
         solution = solve_bvp(
-            ODE_fun, self.BCs, np.linspace(-self.ice_thickness, 0, 5), np.zeros((2, 5))
+            lambda z, F: self._ODE_fun(z, F, L=L),
+            self._BCs,
+            np.linspace(-self.ice_thickness, 0, 5),
+            np.zeros((2, 5)),
         ).sol
         return solution
 
-    @property
-    def upwelling(self):
-        return lambda z, L: self._get_system_solution(L)(z)[0]
+    def upwelling(self, z, L):
+        return self._get_system_solution(L)(z)[0]
 
-    @property
-    def downwelling(self):
-        return lambda z, L: self._get_system_solution(L)(z)[1]
+    def downwelling(self, z, L):
+        return self._get_system_solution(L)(z)[1]
 
-    @property
-    def albedo(self):
-        albedo = lambda L: self.upwelling(0, L)
-        return np.vectorize(albedo)
+    def albedo(self, L):
+        return np.vectorize(self.upwelling)(0, L)
 
-    @property
-    def transmittance(self):
-        transmittance = lambda L: self.downwelling(-self.ice_thickness, L)
-        return np.vectorize(transmittance)
+    def transmittance(self, L):
+        return np.vectorize(self.downwelling)(-self.ice_thickness, L)
 
-    @property
-    def heating(self):
-        return lambda z, L: self.k(z, L) * (
-            self.upwelling(z, L) + self.downwelling(z, L)
-        )
+    def heating(self, z, L):
+        return self.k(z, L) * (self.upwelling(z, L) + self.downwelling(z, L))
