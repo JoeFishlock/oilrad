@@ -23,13 +23,14 @@ from gulf.optics import (
     calculate_ice_oil_extinction_coefficient,
     calculate_ice_scattering_coefficient_from_Roche_2022,
 )
+from gulf.two_stream_model import AbstractModel
 from dataclasses import dataclass
 from typing import Callable
 from scipy.integrate import quad
 
 
 @dataclass
-class TwoLayerModel:
+class TwoLayerModel(AbstractModel):
     uniform_oil_mass_ratio: float
     thickness_ratio: float
     ice_thickness: float
@@ -155,6 +156,9 @@ class TwoLayerModel:
 
     def heating(self, z, L):
         return self.k_cts(z, L) * (self.upwelling(z, L) + self.downwelling(z, L))
+
+    def transmittance(self, L):
+        return self.downwelling(-self.ice_thickness, L)
 
 
 def make_piecewise(func1, func2, boundary):
