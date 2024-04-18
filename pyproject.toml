@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "oilrad"
+version = "0.1.0"
+description = "Two stream radiative transfer model for sea ice containing oil droplets."
+authors = ["Joseph Fishlock <joseph.fishlock@physics.ox.ax.uk>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+numpy = "^1.26.4"
+scipy = "^1.13.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
