@@ -1,4 +1,5 @@
 import numpy as np
+from scipy.integrate import quad
 
 """Data from:
 https://www.oceanopticsbook.info/view/light-and-radiometry/level-2/light-from-the-sun
@@ -35,6 +36,9 @@ def top_of_atmosphere_irradiance(wavelength):
         * np.pi
         * 1e-9
     )
+
+
+TOTAL_TOP_OF_ATMOSPHERE_IRRADIANCE = quad(top_of_atmosphere_irradiance, 0, np.Inf)[0]
 
 
 """Factors to multiply spectrum by for different environmental conditions to get
