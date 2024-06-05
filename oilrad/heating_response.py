@@ -26,7 +26,7 @@ def shortwave_heating_response(
     NUM SAMPLES sets how many points in wavelength space to take for integration,
     a low number set for efficiency.
     """
-    NUM_SAMPLES = 20
+    NUM_SAMPLES = 5
     model = two_stream_model(model_choice, **kwargs)
     wavelengths = np.linspace(min_wavelength, max_wavelength, NUM_SAMPLES)
     integrand = np.array(
