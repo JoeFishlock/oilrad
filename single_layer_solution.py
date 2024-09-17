@@ -8,12 +8,21 @@ ICE_THICKNESS = 1
 ICE_TYPE = "FYI"
 WAVELENGTH = 400
 OIL = 1000
+DROPLET_RADIUS = 0.5
 
 no_oil_model = two_stream_model(
-    "1L", oil_mass_ratio=0, ice_thickness=ICE_THICKNESS, ice_type=ICE_TYPE
+    "1L",
+    oil_mass_ratio=0,
+    ice_thickness=ICE_THICKNESS,
+    ice_type=ICE_TYPE,
+    median_droplet_radius_in_microns=DROPLET_RADIUS,
 )
 oil_model = two_stream_model(
-    "1L", oil_mass_ratio=OIL, ice_thickness=ICE_THICKNESS, ice_type=ICE_TYPE
+    "1L",
+    oil_mass_ratio=OIL,
+    ice_thickness=ICE_THICKNESS,
+    ice_type=ICE_TYPE,
+    median_droplet_radius_in_microns=DROPLET_RADIUS,
 )
 
 z = np.linspace(-ICE_THICKNESS, 0, 100)
@@ -76,6 +85,7 @@ for oil_mass_ratio in [0, 1, 10, 100, 1000]:
         oil_mass_ratio=oil_mass_ratio,
         ice_thickness=ICE_THICKNESS,
         ice_type=ICE_TYPE,
+        median_droplet_radius_in_microns=DROPLET_RADIUS,
     )
     plt.plot(
         model.heating(z, WAVELENGTH),
@@ -101,6 +111,7 @@ for oil_mass_ratio in [0, 1, 10, 100]:
         oil_mass_ratio=oil_mass_ratio,
         ice_thickness=ICE_THICKNESS,
         ice_type=ICE_TYPE,
+        median_droplet_radius_in_microns=DROPLET_RADIUS,
     )
     plt.plot(
         100 * (model.heating(z, WAVELENGTH) - base_heating) / base_heating,

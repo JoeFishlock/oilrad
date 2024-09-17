@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 ICE_TYPE = "FYI"
 H = 2
 uniform_conc = 1000
+DROPLET_RADIUS = 0.5
 
 
 z = np.linspace(-H, 0, 1000)
@@ -14,10 +15,16 @@ linear_oil_func = lambda z: 2 * uniform_conc * ((z / H) + 1)
 constant_oil_func = lambda _: uniform_conc
 
 linear_oil_model = InfiniteLayerModel(
-    linear_oil_func, ice_thickness=H, ice_type=ICE_TYPE
+    linear_oil_func,
+    ice_thickness=H,
+    ice_type=ICE_TYPE,
+    median_droplet_radius_in_microns=DROPLET_RADIUS,
 )
 uniform_oil_model = InfiniteLayerModel(
-    constant_oil_func, ice_thickness=H, ice_type=ICE_TYPE
+    constant_oil_func,
+    ice_thickness=H,
+    ice_type=ICE_TYPE,
+    median_droplet_radius_in_microns=DROPLET_RADIUS,
 )
 
 

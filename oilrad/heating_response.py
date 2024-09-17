@@ -1,20 +1,14 @@
 import numpy as np
-from . import two_stream_model
-from .black_body import top_of_atmosphere_irradiance, TOTAL_TOP_OF_ATMOSPHERE_IRRADIANCE
 from scipy.integrate import trapezoid
+from . import two_stream_model
+from .black_body import normalised_black_body_spectrum
 
 
-def calculate_normalised_incident_shortwave(incident_shortwave_radiation):
-    """Incident shortwave given in W/m2 is assumed to be integrated over the entire
-    solar top of atmosphere blackbody spectrum"""
-    return incident_shortwave_radiation / TOTAL_TOP_OF_ATMOSPHERE_IRRADIANCE
-
-
-def shortwave_heating_response(
-    z, model_choice, min_wavelength, max_wavelength, **kwargs
+def _shortwave_heating_response(
+    z, model_choice, min_wavelength, max_wavelength, num_samples, **kwargs
 ):
-    """Return the heating response of the ice layer to the solar top of atmosphere
-    irradiance spectrum integrated over wavelength
+    """Return the heating response of the ice layer weighted by the black body
+    spectrum
 
     Feltham paper says radiation above 700nm is absorped effectively and should
     therefore be included in surface energy balance.
@@ -25,23 +19,24 @@ def shortwave_heating_response(
 
     NUM SAMPLES sets how many points in wavelength space to take for integration,
     a low number set for efficiency.
+
+    num_samples=7 seems to provide about a 10 percent relative error in the integration
     """
-    NUM_SAMPLES = 5
     model = two_stream_model(model_choice, **kwargs)
-    wavelengths = np.linspace(min_wavelength, max_wavelength, NUM_SAMPLES)
+    wavelengths = np.geomspace(min_wavelength, max_wavelength, num_samples)
     integrand = np.array(
-        [model.heating(z, L) * top_of_atmosphere_irradiance(L) for L in wavelengths]
+        [model.heating(z, L) * normalised_black_body_spectrum(L) for L in wavelengths]
     )
     return trapezoid(np.nan_to_num(integrand), wavelengths)
 
 
-def shortwave_heating_response_array(
-    z_array, model_choice, min_wavelength, max_wavelength, **kwargs
+def _shortwave_heating_response_array(
+    z_array, model_choice, min_wavelength, max_wavelength, num_samples, **kwargs
 ):
     return np.array(
         [
-            shortwave_heating_response(
-                z, model_choice, min_wavelength, max_wavelength, **kwargs
+            _shortwave_heating_response(
+                z, model_choice, min_wavelength, max_wavelength, num_samples, **kwargs
             )
             for z in z_array
         ]
@@ -54,10 +49,18 @@ def calculate_SW_heating_in_ice(
     model_choice,
     min_wavelength,
     max_wavelength,
+    num_samples=5,
     **kwargs,
 ):
-    return calculate_normalised_incident_shortwave(
-        incident_shortwave_radiation
-    ) * shortwave_heating_response_array(
-        z_array, model_choice, min_wavelength, max_wavelength, **kwargs
+    """Given incident shortwave radiation integrated over the full shortwave range
+    hitting the ice surface in W/m2 calculate the heating term within the ice at
+    the positions in z_array using the radiation model specified.
+
+    The heating term is integrated over the wavelength range specified using a
+    black body spectral shape.
+
+    num_samples specifies the resolution in spectral space to integrate over
+    """
+    return incident_shortwave_radiation * _shortwave_heating_response_array(
+        z_array, model_choice, min_wavelength, max_wavelength, num_samples, **kwargs
     )

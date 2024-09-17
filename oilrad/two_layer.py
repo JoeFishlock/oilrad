@@ -35,6 +35,7 @@ class TwoLayerModel(AbstractModel):
     thickness_ratio: float
     ice_thickness: float
     ice_type: str
+    median_droplet_radius_in_microns: float
 
     @property
     def top_oil_mass_ratio(self):
@@ -46,20 +47,32 @@ class TwoLayerModel(AbstractModel):
 
     def k1(self, L):
         return calculate_ice_oil_absorption_coefficient(
-            L, oil_mass_ratio=self.top_oil_mass_ratio
+            L,
+            oil_mass_ratio=self.top_oil_mass_ratio,
+            droplet_radius_in_microns=self.median_droplet_radius_in_microns,
         )
 
     def k2(self, L):
-        return calculate_ice_oil_absorption_coefficient(L, oil_mass_ratio=0)
+        return calculate_ice_oil_absorption_coefficient(
+            L,
+            oil_mass_ratio=0,
+            droplet_radius_in_microns=self.median_droplet_radius_in_microns,
+        )
 
     def mu1(self, L):
         return calculate_ice_oil_extinction_coefficient(
-            L, oil_mass_ratio=self.top_oil_mass_ratio, ice_type=self.ice_type
+            L,
+            oil_mass_ratio=self.top_oil_mass_ratio,
+            ice_type=self.ice_type,
+            droplet_radius_in_microns=self.median_droplet_radius_in_microns,
         )
 
     def mu2(self, L):
         return calculate_ice_oil_extinction_coefficient(
-            L, oil_mass_ratio=0, ice_type=self.ice_type
+            L,
+            oil_mass_ratio=0,
+            ice_type=self.ice_type,
+            droplet_radius_in_microns=self.median_droplet_radius_in_microns,
         )
 
     def s1(self, L):

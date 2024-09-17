@@ -9,6 +9,7 @@ wavelengths = np.linspace(350, 750, 1000)
 OIL = 100
 ICE_TYPE = "MYI"
 ICE_THICKNESS = 2
+DROPLET_RADIUS = 0.5
 
 # Alebdo for different oil layer thickness ratios
 plt.figure(figsize=(8, 6))
@@ -18,7 +19,11 @@ plt.title(
     f"Two layer spectral albedo of {ICE_TYPE} {ICE_THICKNESS}m thick with {OIL}ng oil/g ice"
 )
 unpolluted_albedo = two_stream_model(
-    "1L", oil_mass_ratio=0, ice_thickness=ICE_THICKNESS, ice_type=ICE_TYPE
+    "1L",
+    oil_mass_ratio=0,
+    ice_thickness=ICE_THICKNESS,
+    ice_type=ICE_TYPE,
+    median_droplet_radius_in_microns=DROPLET_RADIUS,
 ).albedo(wavelengths)
 for thickness_ratio in [0.05, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 0.99]:
     model = two_stream_model(
@@ -27,6 +32,7 @@ for thickness_ratio in [0.05, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 0.99]
         thickness_ratio=thickness_ratio,
         ice_thickness=ICE_THICKNESS,
         ice_type=ICE_TYPE,
+        median_droplet_radius_in_microns=DROPLET_RADIUS,
     )
     plt.plot(
         wavelengths,
@@ -51,7 +57,11 @@ plt.title(
     f"Two layer spectral albedo change of {ICE_TYPE} {ICE_THICKNESS}m thick with {OIL}ng oil/g ice"
 )
 base_albedo = two_stream_model(
-    "1L", oil_mass_ratio=OIL, ice_thickness=ICE_THICKNESS, ice_type=ICE_TYPE
+    "1L",
+    oil_mass_ratio=OIL,
+    ice_thickness=ICE_THICKNESS,
+    ice_type=ICE_TYPE,
+    median_droplet_radius_in_microns=DROPLET_RADIUS,
 ).albedo(wavelengths)
 for thickness_ratio in [0.05, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 0.99]:
     model = two_stream_model(
@@ -60,6 +70,7 @@ for thickness_ratio in [0.05, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 0.99]
         thickness_ratio=thickness_ratio,
         ice_thickness=ICE_THICKNESS,
         ice_type=ICE_TYPE,
+        median_droplet_radius_in_microns=DROPLET_RADIUS,
     )
     difference_percentage = (
         100 * (model.albedo(wavelengths) - base_albedo) / base_albedo
@@ -89,10 +100,18 @@ light_colors = ["m--", "m", "b", "g", "y"]
 f = np.linspace(0.01, 0.99, 200)
 for wavelength, light_color in zip(discrete_wavelengths, light_colors):
     base_albedo = two_stream_model(
-        "1L", oil_mass_ratio=OIL, ice_thickness=ICE_THICKNESS, ice_type=ICE_TYPE
+        "1L",
+        oil_mass_ratio=OIL,
+        ice_thickness=ICE_THICKNESS,
+        ice_type=ICE_TYPE,
+        median_droplet_radius_in_microns=DROPLET_RADIUS,
     ).albedo(wavelength)
     unpolluted_albedo = two_stream_model(
-        "1L", oil_mass_ratio=0, ice_thickness=ICE_THICKNESS, ice_type=ICE_TYPE
+        "1L",
+        oil_mass_ratio=0,
+        ice_thickness=ICE_THICKNESS,
+        ice_type=ICE_TYPE,
+        median_droplet_radius_in_microns=DROPLET_RADIUS,
     ).albedo(wavelength)
     plt.plot(1, unpolluted_albedo, light_color, marker="o", alpha=0.3)
     plt.plot(1, base_albedo, light_color, marker="*")
@@ -105,6 +124,7 @@ for wavelength, light_color in zip(discrete_wavelengths, light_colors):
             thickness_ratio=thickness_ratio,
             ice_thickness=ICE_THICKNESS,
             ice_type=ICE_TYPE,
+            median_droplet_radius_in_microns=DROPLET_RADIUS,
         )
         modeled_albedos.append(model.albedo(wavelength))
 
@@ -137,13 +157,28 @@ wavelength = 400
 ice_type = "FYI"
 
 model = two_stream_model(
-    "2L", oil_mass_ratio=oil, thickness_ratio=f, ice_thickness=h, ice_type=ice_type
+    "2L",
+    oil_mass_ratio=oil,
+    thickness_ratio=f,
+    ice_thickness=h,
+    ice_type=ice_type,
+    median_droplet_radius_in_microns=DROPLET_RADIUS,
 )
 no_oil = two_stream_model(
-    "2L", oil_mass_ratio=0, thickness_ratio=f, ice_thickness=h, ice_type=ice_type
+    "2L",
+    oil_mass_ratio=0,
+    thickness_ratio=f,
+    ice_thickness=h,
+    ice_type=ice_type,
+    median_droplet_radius_in_microns=DROPLET_RADIUS,
 )
 uniform = two_stream_model(
-    "2L", oil_mass_ratio=oil, thickness_ratio=0.99, ice_thickness=h, ice_type=ice_type
+    "2L",
+    oil_mass_ratio=oil,
+    thickness_ratio=0.99,
+    ice_thickness=h,
+    ice_type=ice_type,
+    median_droplet_radius_in_microns=DROPLET_RADIUS,
 )
 
 

@@ -43,6 +43,7 @@ class SingleLayerModel(AbstractModel):
     oil_mass_ratio: float
     ice_thickness: float
     ice_type: str
+    median_droplet_radius_in_microns: float
 
     @property
     def r(self):
@@ -50,12 +51,17 @@ class SingleLayerModel(AbstractModel):
 
     def k(self, L):
         return calculate_ice_oil_absorption_coefficient(
-            L, oil_mass_ratio=self.oil_mass_ratio
+            L,
+            oil_mass_ratio=self.oil_mass_ratio,
+            droplet_radius_in_microns=self.median_droplet_radius_in_microns,
         )
 
     def mu(self, L):
         return calculate_ice_oil_extinction_coefficient(
-            L, oil_mass_ratio=self.oil_mass_ratio, ice_type=self.ice_type
+            L,
+            oil_mass_ratio=self.oil_mass_ratio,
+            ice_type=self.ice_type,
+            droplet_radius_in_microns=self.median_droplet_radius_in_microns,
         )
 
     def s(self, L):

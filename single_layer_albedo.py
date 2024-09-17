@@ -2,13 +2,18 @@ import numpy as np
 import matplotlib.pyplot as plt
 from oilrad import two_stream_model
 
-wavelengths = np.linspace(350, 750, 1000)
+wavelengths = np.linspace(350, 1500, 1000)
+DROPLET_RADIUS = 0.5
 
 # show two stream optically thick spectral albedo
 plt.figure()
 for mass_ratio in [0, 1, 10, 100, 200, 1000]:
     model = two_stream_model(
-        "1L", oil_mass_ratio=mass_ratio, ice_thickness=1, ice_type="FYI"
+        "1L",
+        oil_mass_ratio=mass_ratio,
+        ice_thickness=1,
+        ice_type="FYI",
+        median_droplet_radius_in_microns=DROPLET_RADIUS,
     )
     plt.plot(
         wavelengths,
@@ -29,7 +34,11 @@ plt.figure()
 plt.title(f"Spectral albedo of FYI {ice_thickness}m thick")
 for mass_ratio in [0, 1, 10, 100, 200, 1000]:
     model = two_stream_model(
-        "1L", oil_mass_ratio=mass_ratio, ice_thickness=ice_thickness, ice_type="FYI"
+        "1L",
+        oil_mass_ratio=mass_ratio,
+        ice_thickness=ice_thickness,
+        ice_type="FYI",
+        median_droplet_radius_in_microns=DROPLET_RADIUS,
     )
     plt.plot(wavelengths, model.albedo(wavelengths), label=f"{mass_ratio} ng oil/g ice")
 plt.ylim([0, 1])
@@ -45,7 +54,11 @@ plt.figure()
 plt.title(f"Spectral albedo of FYI")
 for ice_thickness in np.linspace(0.5, 6, 6):
     no_oil_model = two_stream_model(
-        "1L", oil_mass_ratio=0, ice_thickness=ice_thickness, ice_type="FYI"
+        "1L",
+        oil_mass_ratio=0,
+        ice_thickness=ice_thickness,
+        ice_type="FYI",
+        median_droplet_radius_in_microns=DROPLET_RADIUS,
     )
     plt.plot(
         wavelengths,
@@ -54,7 +67,11 @@ for ice_thickness in np.linspace(0.5, 6, 6):
     )
 for ice_thickness in np.linspace(0.5, 6, 6):
     oil_model = two_stream_model(
-        "1L", oil_mass_ratio=200, ice_thickness=ice_thickness, ice_type="FYI"
+        "1L",
+        oil_mass_ratio=200,
+        ice_thickness=ice_thickness,
+        ice_type="FYI",
+        median_droplet_radius_in_microns=DROPLET_RADIUS,
     )
     plt.plot(
         wavelengths,
@@ -79,10 +96,18 @@ no_oil_albedo = []
 oil_albedo = []
 for ice_thickness in ice_depths:
     no_oil_model = two_stream_model(
-        "1L", oil_mass_ratio=0, ice_thickness=ice_thickness, ice_type="FYI"
+        "1L",
+        oil_mass_ratio=0,
+        ice_thickness=ice_thickness,
+        ice_type="FYI",
+        median_droplet_radius_in_microns=DROPLET_RADIUS,
     )
     oil_model = two_stream_model(
-        "1L", oil_mass_ratio=1000, ice_thickness=ice_thickness, ice_type="FYI"
+        "1L",
+        oil_mass_ratio=1000,
+        ice_thickness=ice_thickness,
+        ice_type="FYI",
+        median_droplet_radius_in_microns=DROPLET_RADIUS,
     )
     no_oil_albedo.append(no_oil_model.albedo(400))
     oil_albedo.append(oil_model.albedo(400))
