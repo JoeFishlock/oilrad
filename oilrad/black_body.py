@@ -6,12 +6,6 @@ https://www.oceanopticsbook.info/view/light-and-radiometry/level-2/light-from-th
 """
 
 
-EARTH_SOLAR_IRRADIANCE = 1367  # W / m2
-
-NEAR_ULTRAVIOLET = [350, 400]  # nm
-VISIBLE = [400, 700]  # nm
-NEAR_INFRARED = [700, 1000]  # nm
-
 PLANCK = 6.62607015e-34  # Js
 LIGHTSPEED = 299792458  # m/s
 BOLTZMANN = 1.380649e-23  # J/K
@@ -39,6 +33,14 @@ def top_of_atmosphere_irradiance(wavelength):
 
 
 TOTAL_TOP_OF_ATMOSPHERE_IRRADIANCE = quad(top_of_atmosphere_irradiance, 0, np.Inf)[0]
+
+
+def normalised_black_body_spectrum(wavelength_in_nm):
+    """Black body spectral shape that integrates to 1"""
+    return (
+        top_of_atmosphere_irradiance(wavelength_in_nm)
+        / TOTAL_TOP_OF_ATMOSPHERE_IRRADIANCE
+    )
 
 
 """Factors to multiply spectrum by for different environmental conditions to get
