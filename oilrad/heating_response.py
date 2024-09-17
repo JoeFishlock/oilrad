@@ -19,9 +19,11 @@ def _shortwave_heating_response(
 
     NUM SAMPLES sets how many points in wavelength space to take for integration,
     a low number set for efficiency.
+
+    num_samples=7 seems to provide about a 10 percent relative error in the integration
     """
     model = two_stream_model(model_choice, **kwargs)
-    wavelengths = np.linspace(min_wavelength, max_wavelength, num_samples)
+    wavelengths = np.geomspace(min_wavelength, max_wavelength, num_samples)
     integrand = np.array(
         [model.heating(z, L) * normalised_black_body_spectrum(L) for L in wavelengths]
     )
