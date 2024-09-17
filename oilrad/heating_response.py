@@ -5,7 +5,7 @@ from .black_body import normalised_black_body_spectrum
 
 
 def _shortwave_heating_response(
-    z, model_choice, min_wavelength, max_wavelength, **kwargs
+    z, model_choice, min_wavelength, max_wavelength, num_samples, **kwargs
 ):
     """Return the heating response of the ice layer weighted by the black body
     spectrum
@@ -20,9 +20,8 @@ def _shortwave_heating_response(
     NUM SAMPLES sets how many points in wavelength space to take for integration,
     a low number set for efficiency.
     """
-    NUM_SAMPLES = 5
     model = two_stream_model(model_choice, **kwargs)
-    wavelengths = np.linspace(min_wavelength, max_wavelength, NUM_SAMPLES)
+    wavelengths = np.linspace(min_wavelength, max_wavelength, num_samples)
     integrand = np.array(
         [model.heating(z, L) * normalised_black_body_spectrum(L) for L in wavelengths]
     )
@@ -30,12 +29,12 @@ def _shortwave_heating_response(
 
 
 def _shortwave_heating_response_array(
-    z_array, model_choice, min_wavelength, max_wavelength, **kwargs
+    z_array, model_choice, min_wavelength, max_wavelength, num_samples, **kwargs
 ):
     return np.array(
         [
             _shortwave_heating_response(
-                z, model_choice, min_wavelength, max_wavelength, **kwargs
+                z, model_choice, min_wavelength, max_wavelength, num_samples, **kwargs
             )
             for z in z_array
         ]
@@ -48,6 +47,7 @@ def calculate_SW_heating_in_ice(
     model_choice,
     min_wavelength,
     max_wavelength,
+    num_samples=5,
     **kwargs,
 ):
     """Given incident shortwave radiation integrated over the full shortwave range
@@ -56,7 +56,9 @@ def calculate_SW_heating_in_ice(
 
     The heating term is integrated over the wavelength range specified using a
     black body spectral shape.
+
+    num_samples specifies the resolution in spectral space to integrate over
     """
     return incident_shortwave_radiation * _shortwave_heating_response_array(
-        z_array, model_choice, min_wavelength, max_wavelength, **kwargs
+        z_array, model_choice, min_wavelength, max_wavelength, num_samples, **kwargs
     )

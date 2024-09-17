@@ -18,6 +18,7 @@ if __name__ == "__main__":
             "1L",
             350,
             700,
+            num_samples=5,
             oil_mass_ratio=oil,
             ice_thickness=THICKNESS,
             ice_type=ICE_TYPE,
