@@ -1,14 +1,17 @@
-"""Module to calculate the optical properties for ice and ice containing oil droplets"""
+"""Module to calculate the optical properties for ice and ice containing oil droplets
+
+Load data for imaginary refractive index against wavelength from
+doi:10.1029/2007JD009744.
+To interpolate the data to other wavelengths should interpolate the log of the data
+linearly.
+
+Oil absorption calculated following Roche et al 2022 using given data for mass
+absorption coefficient of oil in ice.
+"""
 
 from pathlib import Path
 import numpy as np
-
-"""Load data for imaginary refractive index against wavelength from
-doi:10.1029/2007JD009744.
-
-To interpolate the data to other wavelengths should interpolate the log of the data
-linearly.
-"""
+from scipy.interpolate import LinearNDInterpolator
 
 DATADIR = Path(__file__).parent / "data"
 WARREN_DATA = np.loadtxt(DATADIR / "Warren_2008_ice_refractive_index.dat")
@@ -16,6 +19,32 @@ WARREN_WAVELENGTHS = WARREN_DATA[:, 0]  # in microns
 WARREN_IMAGINARY_REFRACTIVE_INDEX = WARREN_DATA[:, 2]  # dimensionless
 
 SCATTERING_COEFFICIENT_PEROVICH_1990_WHITE_ICE_INTERIOR = 2.5  # in 1/m
+
+ICE_DENSITY_ROCHE_2022 = 800  # in kg/m3
+
+# Create a 2D array of droplet sizes and wavelengths we can interpolate for MAC
+# The wavelengths are always the same so only need to read once
+ROMASHKINO_DROPLET_RADII = np.array([0.05, 0.25, 0.5, 1.5, 2.5, 3.5, 5.0])
+wavelengths = np.genfromtxt(
+    DATADIR / "MassAbsCoe/Romashkino/MAC_0.05.dat",
+    delimiter=",",
+    skip_header=1,
+)[:, 0]
+OIL_MAC_DATA = np.empty((wavelengths.size, len(ROMASHKINO_DROPLET_RADII)))
+for i, droplet_size in enumerate(ROMASHKINO_DROPLET_RADII):
+    MACs = np.genfromtxt(
+        DATADIR / f"MassAbsCoe/Romashkino/MAC_{droplet_size}.dat",
+        delimiter=",",
+        skip_header=1,
+    )[:, 1]
+    OIL_MAC_DATA[:, i] = MACs
+
+# Set up interpolator for oil MAC data
+long_wavelengths = np.tile(wavelengths, len(ROMASHKINO_DROPLET_RADII))
+long_radii = np.repeat(ROMASHKINO_DROPLET_RADII, len(wavelengths))
+interp = LinearNDInterpolator(
+    list(zip(long_wavelengths, long_radii)), OIL_MAC_DATA.flatten("F"), rescale=True
+)
 
 #################################
 #  Pure ice optical properties  #
@@ -52,7 +81,6 @@ def calculate_ice_scattering_coefficient_from_Roche_2022(ice_type: str):
     doesn't depend on wavelength
     """
     ICE_ASYMMETRY_PARAM_ROCHE_2022 = 0.98  # dimensionless
-    ICE_DENSITY_ROCHE_2022 = 800  # in kg/m3
 
     # mass cross section in m2/kg
     SCATTERING_MASS_CROSS_SECTION_ROCHE_2022 = {"FYI": 0.15, "MYI": 0.75, "MELT": 0.03}
@@ -74,41 +102,37 @@ def calculate_ice_extinction_coefficient(wavelength_in_nm, ice_type):
 ############################
 #  oil optical properties  #
 ############################
+def Romashkino_MAC(wavelength_nm, droplet_radius_microns):
+    return interp(wavelength_nm, droplet_radius_microns)
 
 
-def calculate_pure_oil_absorption_coefficient(wavelengths_in_nm):
-    """Linearly interpolate data for pure Romashkino oil from Otremba 2007.
-    This neflects the mie calculation droplet size effects.
-    """
-    DATA_WAVELENGTHS = np.array([350, 400, 450, 500, 550, 600, 650, 700, 750])  # in nm
-    OIL_ABSORPTION = np.array(
-        [215420, 20110, 7260, 3270, 1830, 1260, 770, 540, 340]
-    )  # in 1/m
-    return np.interp(wavelengths_in_nm, DATA_WAVELENGTHS, OIL_ABSORPTION)
-
-
-def calculate_ice_oil_absorption_coefficient(wavelengths_in_nm, oil_mass_ratio):
-    """Approximate the absorption coefficient of ice containing oil mass ratio
-    in 1/m as pure ice absorption with mass ratio of pure oil.
+def calculate_ice_oil_absorption_coefficient(
+    wavelengths_in_nm, oil_mass_ratio, droplet_radius_in_microns
+):
+    """Calculate the absorption coefficient in 1/m of ice polluted with oil droplets
+    following roche et al 2022. The oil droplets radii are distributed log-normally
+    with geometric standard deviation e. We specify the median radius for the distribution.
 
     mass ratio in units of ng oil / g ice
 
-    This is temporary until we can use better data
+    This is for Romashkino oil.
     """
     mass_ratio_dimensionless = oil_mass_ratio * 1e-9
     return calculate_ice_absorption_coefficient(
         wavelengths_in_nm
-    ) + mass_ratio_dimensionless * calculate_pure_oil_absorption_coefficient(
-        wavelengths_in_nm
+    ) + mass_ratio_dimensionless * 1e3 * ICE_DENSITY_ROCHE_2022 * Romashkino_MAC(
+        wavelengths_in_nm, droplet_radius_in_microns
     )
 
 
 def calculate_ice_oil_extinction_coefficient(
-    wavelength_in_nm, oil_mass_ratio, ice_type: str
+    wavelength_in_nm, oil_mass_ratio, ice_type: str, droplet_radius_in_microns
 ):
     """oil mass ratio in ng oil/g ice yields extincition coefficient with oil pollution
     in 1/m
     """
-    k = calculate_ice_oil_absorption_coefficient(wavelength_in_nm, oil_mass_ratio)
+    k = calculate_ice_oil_absorption_coefficient(
+        wavelength_in_nm, oil_mass_ratio, droplet_radius_in_microns
+    )
     r = calculate_ice_scattering_coefficient_from_Roche_2022(ice_type)
     return np.sqrt(k**2 + 2 * k * r)
