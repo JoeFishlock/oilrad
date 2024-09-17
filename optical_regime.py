@@ -16,9 +16,9 @@ plt.plot(x_values, 1 / x_values, "k", label="optical depth=1")
 
 # first year ice
 for oil_mass_ratio, line_style in zip([0, 1000], ["-", "--"]):
-    for wavelength, color in zip([350, 750], ["violet", "red"]):
+    for wavelength, color in zip([350, 500, 800], ["violet", "green", "red"]):
         extinction_coefficient = calculate_ice_oil_extinction_coefficient(
-            wavelength, oil_mass_ratio, ice_type="FYI"
+            wavelength, oil_mass_ratio, ice_type="FYI", droplet_radius_in_microns=0.5
         )
         plt.vlines(
             extinction_coefficient,
