@@ -6,6 +6,7 @@ if __name__ == "__main__":
     ICE_TYPE = "FYI"
     DSI = 280
     THICKNESS = 0.8
+    DROPLET_RADIUS = 0.5
 
     plt.figure()
     plt.title(f"Incident DSI: {DSI}W/m2, ice type: {ICE_TYPE}, thickness: {THICKNESS}m")
@@ -20,6 +21,7 @@ if __name__ == "__main__":
             oil_mass_ratio=oil,
             ice_thickness=THICKNESS,
             ice_type=ICE_TYPE,
+            median_droplet_radius_in_microns=DROPLET_RADIUS,
         )
         plt.plot(heating, z, label=f"{oil}ng/g")
     plt.ylabel("Depth in ice (m)")

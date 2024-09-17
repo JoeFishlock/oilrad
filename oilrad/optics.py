@@ -103,7 +103,9 @@ def calculate_ice_extinction_coefficient(wavelength_in_nm, ice_type):
 #  oil optical properties  #
 ############################
 def Romashkino_MAC(wavelength_nm, droplet_radius_microns):
-    return interp(wavelength_nm, droplet_radius_microns)
+    return np.where(
+        wavelength_nm > 800, 0, interp(wavelength_nm, droplet_radius_microns)
+    )
 
 
 def calculate_ice_oil_absorption_coefficient(

@@ -14,6 +14,7 @@ from oilrad.infinite_layer import InfiniteLayerModel
 
 H = 2
 ICE_TYPE = "FYI"
+DROPLET_RADIUS = 0.5
 
 sample_depths = np.linspace(-H, 0, 25)
 sample_oil = np.maximum(
@@ -26,12 +27,14 @@ plt.plot(sample_oil, sample_depths)
 plt.show()
 plt.close()
 interpolated_oil_func = lambda z: np.interp(z, sample_depths, sample_oil)
-interpolated_oil_model = InfiniteLayerModel(interpolated_oil_func, H, ICE_TYPE)
+interpolated_oil_model = InfiniteLayerModel(
+    interpolated_oil_func, H, ICE_TYPE, DROPLET_RADIUS
+)
 
 smooth_oil_func = lambda z: 1000 * (z + H) ** 2 / 4
-smooth_oil_model = InfiniteLayerModel(smooth_oil_func, H, ICE_TYPE)
+smooth_oil_model = InfiniteLayerModel(smooth_oil_func, H, ICE_TYPE, DROPLET_RADIUS)
 
-base = InfiniteLayerModel(lambda z: 0, H, ICE_TYPE)
+base = InfiniteLayerModel(lambda z: 0, H, ICE_TYPE, DROPLET_RADIUS)
 
 z = np.linspace(-H, 0, 1000)
 

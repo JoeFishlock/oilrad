@@ -18,6 +18,7 @@ class InfiniteLayerModel(AbstractModel):
     oil_mass_ratio: Callable[[float], float]
     ice_thickness: float
     ice_type: str
+    median_droplet_radius_in_microns: float
 
     @property
     def r(self):
@@ -25,7 +26,9 @@ class InfiniteLayerModel(AbstractModel):
 
     def k(self, z, L):
         return calculate_ice_oil_absorption_coefficient(
-            L, oil_mass_ratio=self.oil_mass_ratio(z)
+            L,
+            oil_mass_ratio=self.oil_mass_ratio(z),
+            droplet_radius_in_microns=self.median_droplet_radius_in_microns,
         )
 
     def _ODE_fun(self, z, F, L):

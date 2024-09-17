@@ -37,7 +37,7 @@ if __name__ == "__main__":
     plt.savefig("figures/figure_4_reproduced.pdf")
     plt.close()
 
-    WAVES = np.linspace(350, 800, 10000)
+    WAVES = np.linspace(350, 1500, 10000)
     DROPLET_SIZE = 0.5
     ICE_DENSITY = 916
     OIL_MASS_RATIOS = [0, 10, 100, 1000]
@@ -67,7 +67,7 @@ if __name__ == "__main__":
             ),
             label=f"{OIL_MASS_RATIO}ng/g",
         )
-    plt.ylim([1e-4, 10])
+    # plt.ylim([1e-4, 10])
     plt.ylabel("k (1/m)")
     plt.xlabel("Wavelength (nm)")
     plt.yscale("log")
@@ -86,7 +86,7 @@ if __name__ == "__main__":
             ),
             label=f"{OIL_MASS_RATIO}ng/g",
         )
-    plt.ylim([1e-4, 10])
+    # plt.ylim([1e-4, 10])
     plt.ylabel("mu (1/m)")
     plt.xlabel("Wavelength (nm)")
     plt.yscale("log")
