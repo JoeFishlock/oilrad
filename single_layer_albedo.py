@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from oilrad import two_stream_model
 
-wavelengths = np.linspace(350, 750, 1000)
+wavelengths = np.linspace(350, 1500, 1000)
 DROPLET_RADIUS = 0.5
 
 # show two stream optically thick spectral albedo
