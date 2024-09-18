@@ -5,7 +5,7 @@ the SW spectrum
 from dataclasses import dataclass
 from numpy.typing import NDArray
 from scipy.integrate import trapezoid
-from .black_body import normalised_black_body_spectrum
+from .black_body import get_normalised_black_body_spectrum
 
 
 @dataclass(frozen=True)
@@ -62,8 +62,9 @@ def integrate_over_SW(spectral_irradiance: SpectralIrradiance) -> Irradiance:
     """integrate over the SW spectrum gven as part of the SpectralIrradiance object
     weighted by the normalised black body spectrum over this range"""
     wavelengths = spectral_irradiance.wavelengths
+    spectrum = get_normalised_black_body_spectrum((wavelengths[0], wavelengths[-1]))
     integrate = lambda irradiance: trapezoid(
-        irradiance * normalised_black_body_spectrum(wavelengths), wavelengths, axis=1
+        irradiance * spectrum(wavelengths), wavelengths, axis=1
     )
     integrated_upwelling = integrate(spectral_irradiance.upwelling)
     integrated_downwelling = integrate(spectral_irradiance.downwelling)
