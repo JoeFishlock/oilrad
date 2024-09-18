@@ -10,18 +10,19 @@ scattering and absorption coefficients (1/m) from optics module
 
 """
 
+from dataclasses import dataclass
 import numpy as np
-from oilrad.optics import (
+from numpy.typing import NDArray
+from .optics import (
     calculate_ice_oil_absorption_coefficient,
     calculate_ice_oil_extinction_coefficient,
     calculate_ice_scattering_coefficient_from_Roche_2022,
 )
-from dataclasses import dataclass
-from oilrad.abstract_model import AbstractModel
+from .irradiance import SpectralIrradiance
 
 
-@dataclass
-class SingleLayerModel(AbstractModel):
+@dataclass(frozen=True)
+class SingleLayerModel:
     """
     For computational stability try represnting single layer solution in exponential
     basis:
@@ -40,10 +41,15 @@ class SingleLayerModel(AbstractModel):
     upwelling radiation -> upwelling * incident shortwave spectrum
     """
 
+    z: NDArray
+    wavelengths: NDArray
     oil_mass_ratio: float
-    ice_thickness: float
     ice_type: str
     median_droplet_radius_in_microns: float
+
+    @property
+    def ice_thickness(self):
+        return -self.z[0]
 
     @property
     def r(self):
@@ -65,6 +71,7 @@ class SingleLayerModel(AbstractModel):
         )
 
     def s(self, L):
+        """albedo in optically thick limit"""
         return (self.mu(L) - self.k(L)) / (self.mu(L) + self.k(L))
 
     def opt_depth(self, L):
@@ -83,6 +90,22 @@ class SingleLayerModel(AbstractModel):
             )
         )
 
+    def albedo(self, L):
+        """calculate spectral alebdo with no Fresnel reflection
+        wavelength in nm
+        ice thickness (m)
+        oil mass ratio (ng oil/g ice)
+        ice_type for scattering coefficient
+        """
+        return self.r / (self.k(L) + self.r + (self.mu(L) / np.tanh(self.opt_depth(L))))
+
+    def optically_thick_albedo(self, L):
+        """calculate spectral alebdo for wavelength in nm in optically thick limit
+        oil mass ratio (ng oil/g ice)
+        ice_type for scattering coefficient
+        """
+        return self.s(L)
+
     def upwelling(self, z, L):
         return self.A(L) * (
             np.exp(self.mu(L) * z) - np.exp(-self.mu(L) * (z + 2 * self.ice_thickness))
@@ -97,28 +120,11 @@ class SingleLayerModel(AbstractModel):
         down[np.isnan(down)] = 0
         return down
 
-    def albedo(self, L):
-        """calculate spectral alebdo with no Fresnel reflection
-        wavelength in nm
-        ice thickness (m)
-        oil mass ratio (ng oil/g ice)
-        ice_type for scattering coefficient
-        """
-        return self.r / (self.k(L) + self.r + (self.mu(L) / np.tanh(self.opt_depth(L))))
 
-    def transmittance(self, L):
-        return self.downwelling(-self.ice_thickness, L)
-
-    def heating(self, z, L):
-        """Use two stream ODEs dFnet/dz = k*(upwelling + downwelling)
-
-        Need to multiply by incident shortwave to get dimensional value
-        """
-        return self.k(L) * (self.upwelling(z, L) + self.downwelling(z, L))
-
-    def optically_thick_albedo(self, L):
-        """calculate spectral alebdo for wavelength in nm in optically thick limit
-        oil mass ratio (ng oil/g ice)
-        ice_type for scattering coefficient
-        """
-        return self.s(L)
+def solve(model: SingleLayerModel) -> SpectralIrradiance:
+    upwelling = np.empty((model.z.size, model.wavelengths.size))
+    downwelling = np.empty((model.z.size, model.wavelengths.size))
+    for i, wavelength in enumerate(model.wavelengths):
+        upwelling[:, i] = model.upwelling(model.z, wavelength)
+        downwelling[:, i] = model.downwelling(model.z, wavelength)
+    return SpectralIrradiance(model.z, model.wavelengths, upwelling, downwelling)
