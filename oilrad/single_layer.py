@@ -85,17 +85,17 @@ class SingleLayerModel(AbstractModel):
 
     def upwelling(self, z, L):
         return self.A(L) * (
-            np.exp(self.mu(L) * z)
-            - np.exp(-self.mu(L) * z) / np.exp(2 * self.opt_depth(L))
+            np.exp(self.mu(L) * z) - np.exp(-self.mu(L) * (z + 2 * self.ice_thickness))
         )
 
     def downwelling(self, z, L):
-        return (self.A(L) / self.s(L)) * np.exp(self.mu(L) * z) + (
+        down = (self.A(L) / self.s(L)) * np.exp(self.mu(L) * z) + (
             1 - (self.A(L) / self.s(L))
         ) * np.exp(-self.mu(L) * z)
-
-    def net_radiation(self, z, L):
-        return self.downwelling(z, L) - self.upwelling(z, L)
+        # When downwelling becomes very small as extinction coefficient goes to infinity
+        # at long wavelengths
+        down[np.isnan(down)] = 0
+        return down
 
     def albedo(self, L):
         """calculate spectral alebdo with no Fresnel reflection
