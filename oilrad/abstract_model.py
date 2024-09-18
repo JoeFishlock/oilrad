@@ -16,6 +16,9 @@ class AbstractModel(ABC):
     def downwelling(self, z, L):
         pass
 
+    def net_radiation(self, z, L):
+        return self.downwelling(z, L) - self.upwelling(z, L)
+
     @abstractmethod
     def heating(self, z, L):
         pass
