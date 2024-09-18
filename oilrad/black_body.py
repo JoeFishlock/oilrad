@@ -11,6 +11,7 @@ LIGHTSPEED = 299792458  # m/s
 BOLTZMANN = 1.380649e-23  # J/K
 AU = 1.496e11  # m
 SUN_RADIUS = 6.95e8  # m
+SW_WAVELENGTHS = [350, 3000]
 
 
 PLANCK_FUNCTION = lambda L, T: (2 * PLANCK * LIGHTSPEED**2 / L**5) * (
@@ -32,11 +33,17 @@ def top_of_atmosphere_irradiance(wavelength):
     )
 
 
-TOTAL_TOP_OF_ATMOSPHERE_IRRADIANCE = quad(top_of_atmosphere_irradiance, 0, np.Inf)[0]
+TOTAL_TOP_OF_ATMOSPHERE_IRRADIANCE = quad(
+    top_of_atmosphere_irradiance, SW_WAVELENGTHS[0], SW_WAVELENGTHS[1]
+)[0]
 
 
 def normalised_black_body_spectrum(wavelength_in_nm):
     """Black body spectral shape that integrates to 1"""
+    if np.any(wavelength_in_nm > SW_WAVELENGTHS[1]) or np.any(
+        wavelength_in_nm < SW_WAVELENGTHS[0]
+    ):
+        raise ValueError(f"wavelength not in shortwave range {SW_WAVELENGTHS}")
     return (
         top_of_atmosphere_irradiance(wavelength_in_nm)
         / TOTAL_TOP_OF_ATMOSPHERE_IRRADIANCE
