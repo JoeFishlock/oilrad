@@ -17,25 +17,28 @@ gamma is defined as the single layer albedo i.e
 gamma = scattering /(extinction*coth(optical_depth) + absorption + scattering)
 """
 
+from dataclasses import dataclass
 import numpy as np
-from oilrad.optics import (
+from numpy.typing import NDArray
+from .optics import (
     calculate_ice_oil_absorption_coefficient,
     calculate_ice_oil_extinction_coefficient,
     calculate_ice_scattering_coefficient_from_Roche_2022,
 )
-from oilrad.abstract_model import AbstractModel
-from dataclasses import dataclass
-from typing import Callable
-from scipy.integrate import quad
 
 
-@dataclass
-class TwoLayerModel(AbstractModel):
+@dataclass(frozen=True)
+class TwoLayerModel:
+    z: NDArray
+    wavelengths: NDArray
     oil_mass_ratio: float
     thickness_ratio: float
-    ice_thickness: float
     ice_type: str
     median_droplet_radius_in_microns: float
+
+    @property
+    def ice_thickness(self):
+        return -self.z[0]
 
     @property
     def top_oil_mass_ratio(self):
@@ -143,14 +146,14 @@ class TwoLayerModel(AbstractModel):
         )
 
     def downwelling(self, z, L):
-        return make_piecewise(
+        return _make_piecewise(
             self._downwelling_1,
             self._downwelling_2,
             boundary=-self.ice_thickness * self.thickness_ratio,
         )(z, L)
 
     def upwelling(self, z, L):
-        return make_piecewise(
+        return _make_piecewise(
             self._upwelling_1,
             self._upwelling_2,
             boundary=-self.ice_thickness * self.thickness_ratio,
@@ -174,7 +177,7 @@ class TwoLayerModel(AbstractModel):
         return self.downwelling(-self.ice_thickness, L)
 
 
-def make_piecewise(func1, func2, boundary):
+def _make_piecewise(func1, func2, boundary):
     def piecewise_function(z, L):
         output = np.empty_like(z)
         is_region_1 = z >= boundary
@@ -183,17 +186,3 @@ def make_piecewise(func1, func2, boundary):
         return output
 
     return piecewise_function
-
-
-def PAR_heating(
-    model: TwoLayerModel, solar_irradiance: Callable[[float], float]
-) -> Callable[[float], float]:
-    """Turned quad integrator accuracy down as I think the course wavelength data
-    is causing it to fail to converge"""
-    PAR_BOUNDS = (350, 700)
-    return lambda z: quad(
-        lambda L: solar_irradiance(L) * model.heating(z, L),
-        *PAR_BOUNDS,
-        epsabs=1e-3,
-        epsrel=1e-3
-    )[0]

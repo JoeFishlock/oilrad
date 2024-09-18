@@ -1,5 +1,7 @@
-__version__ = "0.3.0"
+__version__ = "0.4.0"
 
-from .model_loader import two_stream_model
-from .heating_response import calculate_SW_heating_in_ice
-from .total_albedo import calculate_total_albedo
+from .irradiance import SpectralIrradiance, Irradiance, integrate_over_SW
+from .single_layer import SingleLayerModel
+from .two_layer import TwoLayerModel
+from .infinite_layer import InfiniteLayerModel
+from .solve import solve_two_stream_model

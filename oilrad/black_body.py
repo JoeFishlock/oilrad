@@ -1,4 +1,6 @@
+from typing import Callable
 import numpy as np
+from numpy.typing import NDArray
 from scipy.integrate import quad
 
 """Data from:
@@ -32,46 +34,23 @@ def top_of_atmosphere_irradiance(wavelength):
     )
 
 
-TOTAL_TOP_OF_ATMOSPHERE_IRRADIANCE = quad(top_of_atmosphere_irradiance, 0, np.Inf)[0]
+def get_normalised_black_body_spectrum(
+    wavelength_range: tuple[float, float]
+) -> Callable[[NDArray], NDArray]:
+    """Return a solar black body spectrum which is normalised over the wavelength range"""
+    max_wavelength = wavelength_range[1]
+    min_wavelength = wavelength_range[0]
+    TOTAL_IRRADIANCE = quad(
+        top_of_atmosphere_irradiance, min_wavelength, max_wavelength
+    )[0]
 
+    def spectrum(wavelength_in_nm: NDArray) -> NDArray:
+        if np.any(wavelength_in_nm > max_wavelength) or np.any(
+            wavelength_in_nm < min_wavelength
+        ):
+            raise ValueError(
+                f"wavelength not in shortwave range {min_wavelength}nm - {max_wavelength}nm"
+            )
+        return top_of_atmosphere_irradiance(wavelength_in_nm) / TOTAL_IRRADIANCE
 
-def normalised_black_body_spectrum(wavelength_in_nm):
-    """Black body spectral shape that integrates to 1"""
-    return (
-        top_of_atmosphere_irradiance(wavelength_in_nm)
-        / TOTAL_TOP_OF_ATMOSPHERE_IRRADIANCE
-    )
-
-
-"""Factors to multiply spectrum by for different environmental conditions to get
-surface radiation. Note this neglects more complicated atmospheric absorption
-for example strong ozone absorption around 300nm.
-0: top of atmosphere
-1: very clear atmosphere, sun at zenith
-2: vlear atmoshphere, sun at 60 deg
-3: hazy atmosphere, sun at 60 deg
-4: hazy atmosphere, sun near horizon
-5: heavy overcast, sun at zenith
-6: heavy overcast, sun near horizon
-
-To extend this I could use ERA5 reanalysis for integrated donwelling shortwave
-
-See also observational dataset from greenland of high arctic:
-https://doi.org/10.5194/essd-16-543-2024
-"""
-
-ENVIRONMENT_FACTORS = [
-    1,
-    500 / 522,
-    250 / 522,
-    175 / 522,
-    50 / 522,
-    125 / 522,
-    10 / 522,
-]
-
-
-def solar_irradiance(wavelength, environment_conditions=3):
-    return ENVIRONMENT_FACTORS[environment_conditions] * top_of_atmosphere_irradiance(
-        wavelength
-    )
+    return spectrum
