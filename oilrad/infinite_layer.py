@@ -11,7 +11,6 @@ from .optics import (
     calculate_ice_oil_absorption_coefficient,
     calculate_ice_scattering_coefficient_from_Roche_2022,
 )
-from .irradiance import SpectralIrradiance
 
 
 @dataclass(frozen=True)
@@ -49,7 +48,7 @@ def _BCs(F_bottom, F_top):
     return np.array([F_top[1] - 1, F_bottom[0]])
 
 
-def _solve_at_given_wavelength(model, wavelength: float) -> tuple[NDArray, NDArray]:
+def solve_at_given_wavelength(model, wavelength: float) -> tuple[NDArray, NDArray]:
     fun = _get_ODE_fun(model, wavelength)
     solution = solve_bvp(
         fun,
@@ -61,13 +60,3 @@ def _solve_at_given_wavelength(model, wavelength: float) -> tuple[NDArray, NDArr
     if not solution.success:
         raise RuntimeError(f"{solution.message}")
     return solution.sol(model.z)[0], solution.sol(model.z)[1]
-
-
-def solve(model: InfiniteLayerModel) -> SpectralIrradiance:
-    upwelling = np.empty((model.z.size, model.wavelengths.size))
-    downwelling = np.empty((model.z.size, model.wavelengths.size))
-    for i, wavelength in enumerate(model.wavelengths):
-        col_upwelling, col_downwelling = _solve_at_given_wavelength(model, wavelength)
-        upwelling[:, i] = col_upwelling
-        downwelling[:, i] = col_downwelling
-    return SpectralIrradiance(model.z, model.wavelengths, upwelling, downwelling)

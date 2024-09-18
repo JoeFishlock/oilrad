@@ -18,7 +18,6 @@ from .optics import (
     calculate_ice_oil_extinction_coefficient,
     calculate_ice_scattering_coefficient_from_Roche_2022,
 )
-from .irradiance import SpectralIrradiance
 
 
 @dataclass(frozen=True)
@@ -119,12 +118,3 @@ class SingleLayerModel:
         # at long wavelengths
         down[np.isnan(down)] = 0
         return down
-
-
-def solve(model: SingleLayerModel) -> SpectralIrradiance:
-    upwelling = np.empty((model.z.size, model.wavelengths.size))
-    downwelling = np.empty((model.z.size, model.wavelengths.size))
-    for i, wavelength in enumerate(model.wavelengths):
-        upwelling[:, i] = model.upwelling(model.z, wavelength)
-        downwelling[:, i] = model.downwelling(model.z, wavelength)
-    return SpectralIrradiance(model.z, model.wavelengths, upwelling, downwelling)
