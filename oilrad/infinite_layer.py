@@ -46,8 +46,11 @@ class InfiniteLayerModel(AbstractModel):
             self._BCs,
             np.linspace(-self.ice_thickness, 0, 5),
             np.zeros((2, 5)),
-        ).sol
-        return solution
+            max_nodes=6000,
+        )
+        if not solution.success:
+            raise RuntimeError(f"{solution.message}")
+        return solution.sol
 
     def upwelling(self, z, L):
         return self._get_system_solution(L)(z)[0]
