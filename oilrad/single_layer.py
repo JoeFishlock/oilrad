@@ -16,7 +16,7 @@ from numpy.typing import NDArray
 from .optics import (
     calculate_ice_oil_absorption_coefficient,
     calculate_ice_oil_extinction_coefficient,
-    calculate_ice_scattering_coefficient_from_Roche_2022,
+    calculate_ice_scattering,
 )
 
 
@@ -47,19 +47,13 @@ class SingleLayerModel:
     ice_type: str
     median_droplet_radius_in_microns: float
 
-    liquid_fraction: NDArray | None = None
-
-    def __post_init__(self):
-        """if liquid fraction not passed initialise so domain is entirely ice"""
-        self.liquid_fraction = np.full_like(self.z, 0)
-
     @property
     def ice_thickness(self):
         return -self.z[0]
 
     @property
     def r(self):
-        return calculate_ice_scattering_coefficient_from_Roche_2022(self.ice_type)
+        return calculate_ice_scattering(self.ice_type)
 
     def k(self, L):
         return calculate_ice_oil_absorption_coefficient(

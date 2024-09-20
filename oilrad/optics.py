@@ -11,6 +11,7 @@ absorption coefficient of oil in ice.
 
 from pathlib import Path
 import numpy as np
+from numpy.typing import NDArray
 from scipy.interpolate import LinearNDInterpolator
 
 DATADIR = Path(__file__).parent / "data"
@@ -76,8 +77,8 @@ def calculate_ice_absorption_coefficient(wavelength_in_nm):
     return absorption_coefficient
 
 
-def calculate_ice_scattering_coefficient_from_Roche_2022(ice_type: str):
-    """Calculate ice scattering coefficient (1/m)
+def calculate_ice_scattering(ice_type: str):
+    """Calculate ice scattering coefficient (1/m) from redmond roche 2022 et al
     doesn't depend on wavelength
     """
     ICE_ASYMMETRY_PARAM_ROCHE_2022 = 0.98  # dimensionless
@@ -93,9 +94,18 @@ def calculate_ice_scattering_coefficient_from_Roche_2022(ice_type: str):
     )
 
 
+def calculate_scattering(liquid_fraction: NDArray, ice_type: str):
+    """Calculate scattering coefficient in ice and return zero in liquid
+    doesn't depend on wavelength
+    """
+
+    ice_scattering = calculate_ice_scattering(ice_type)
+    return ice_scattering * np.tanh((1 - liquid_fraction) * 100)
+
+
 def calculate_ice_extinction_coefficient(wavelength_in_nm, ice_type):
     k = calculate_ice_absorption_coefficient(wavelength_in_nm)
-    r = calculate_ice_scattering_coefficient_from_Roche_2022(ice_type)
+    r = calculate_ice_scattering(ice_type)
     return np.sqrt(k**2 + 2 * k * r)
 
 
@@ -136,5 +146,5 @@ def calculate_ice_oil_extinction_coefficient(
     k = calculate_ice_oil_absorption_coefficient(
         wavelength_in_nm, oil_mass_ratio, droplet_radius_in_microns
     )
-    r = calculate_ice_scattering_coefficient_from_Roche_2022(ice_type)
+    r = calculate_ice_scattering(ice_type)
     return np.sqrt(k**2 + 2 * k * r)
