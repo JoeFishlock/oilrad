@@ -17,7 +17,8 @@ from .optics import (
 class InfiniteLayerModel:
     z: NDArray
     wavelengths: NDArray
-    oil_mass_ratio: Callable[[NDArray], NDArray]
+    oil_mass_ratio: NDArray
+
     ice_type: str
     median_droplet_radius_in_microns: float
 
@@ -27,10 +28,13 @@ def _get_ODE_fun(
 ) -> Callable[[NDArray, NDArray], NDArray]:
     r = calculate_ice_scattering_coefficient_from_Roche_2022(model.ice_type)
 
+    def oil_func(z: NDArray) -> NDArray:
+        return np.interp(z, model.z, model.oil_mass_ratio, left=np.NaN, right=np.NaN)
+
     def k(z: NDArray) -> NDArray:
         return calculate_ice_oil_absorption_coefficient(
             wavelength,
-            oil_mass_ratio=model.oil_mass_ratio(z),
+            oil_mass_ratio=oil_func(z),
             droplet_radius_in_microns=model.median_droplet_radius_in_microns,
         )
 

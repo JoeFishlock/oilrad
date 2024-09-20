@@ -31,6 +31,7 @@ from .optics import (
 class TwoLayerModel:
     z: NDArray
     wavelengths: NDArray
+
     oil_mass_ratio: float
     thickness_ratio: float
     ice_type: str

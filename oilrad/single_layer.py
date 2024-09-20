@@ -42,6 +42,7 @@ class SingleLayerModel:
 
     z: NDArray
     wavelengths: NDArray
+
     oil_mass_ratio: float
     ice_type: str
     median_droplet_radius_in_microns: float
