@@ -27,7 +27,7 @@ from .optics import (
 )
 
 
-@dataclass(frozen=True)
+@dataclass
 class TwoLayerModel:
     z: NDArray
     wavelengths: NDArray
@@ -36,6 +36,12 @@ class TwoLayerModel:
     thickness_ratio: float
     ice_type: str
     median_droplet_radius_in_microns: float
+
+    liquid_fraction: NDArray | None = None
+
+    def __post_init__(self):
+        """if liquid fraction not passed initialise so domain is entirely ice"""
+        self.liquid_fraction = np.full_like(self.z, 0)
 
     @property
     def ice_thickness(self):
