@@ -16,11 +16,11 @@ from numpy.typing import NDArray
 from .optics import (
     calculate_ice_oil_absorption_coefficient,
     calculate_ice_oil_extinction_coefficient,
-    calculate_ice_scattering_coefficient_from_Roche_2022,
+    calculate_ice_scattering,
 )
 
 
-@dataclass(frozen=True)
+@dataclass
 class SingleLayerModel:
     """
     For computational stability try represnting single layer solution in exponential
@@ -42,6 +42,7 @@ class SingleLayerModel:
 
     z: NDArray
     wavelengths: NDArray
+
     oil_mass_ratio: float
     ice_type: str
     median_droplet_radius_in_microns: float
@@ -52,7 +53,7 @@ class SingleLayerModel:
 
     @property
     def r(self):
-        return calculate_ice_scattering_coefficient_from_Roche_2022(self.ice_type)
+        return calculate_ice_scattering(self.ice_type)
 
     def k(self, L):
         return calculate_ice_oil_absorption_coefficient(

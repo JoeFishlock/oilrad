@@ -23,14 +23,15 @@ from numpy.typing import NDArray
 from .optics import (
     calculate_ice_oil_absorption_coefficient,
     calculate_ice_oil_extinction_coefficient,
-    calculate_ice_scattering_coefficient_from_Roche_2022,
+    calculate_ice_scattering,
 )
 
 
-@dataclass(frozen=True)
+@dataclass
 class TwoLayerModel:
     z: NDArray
     wavelengths: NDArray
+
     oil_mass_ratio: float
     thickness_ratio: float
     ice_type: str
@@ -46,7 +47,7 @@ class TwoLayerModel:
 
     @property
     def r(self):
-        return calculate_ice_scattering_coefficient_from_Roche_2022(self.ice_type)
+        return calculate_ice_scattering(self.ice_type)
 
     def k1(self, L):
         return calculate_ice_oil_absorption_coefficient(

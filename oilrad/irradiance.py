@@ -2,6 +2,7 @@
 the SW spectrum
 """
 
+from typing import Optional
 from dataclasses import dataclass
 from numpy.typing import NDArray
 from scipy.integrate import trapezoid
@@ -21,6 +22,8 @@ class SpectralIrradiance:
     upwelling: NDArray
     downwelling: NDArray
 
+    ice_base_index: int = 0
+
     @property
     def net_irradiance(self) -> NDArray:
         return self.downwelling - self.upwelling
@@ -31,7 +34,7 @@ class SpectralIrradiance:
 
     @property
     def transmittance(self) -> NDArray:
-        return self.downwelling[0, :]
+        return self.downwelling[self.ice_base_index, :]
 
 
 @dataclass(frozen=True)
@@ -45,6 +48,8 @@ class Irradiance:
     upwelling: NDArray
     downwelling: NDArray
 
+    ice_base_index: int = 0
+
     @property
     def net_irradiance(self) -> NDArray:
         return self.downwelling - self.upwelling
@@ -55,7 +60,7 @@ class Irradiance:
 
     @property
     def transmittance(self) -> NDArray:
-        return self.downwelling[0]
+        return self.downwelling[self.ice_base_index]
 
 
 def integrate_over_SW(spectral_irradiance: SpectralIrradiance) -> Irradiance:
@@ -69,5 +74,8 @@ def integrate_over_SW(spectral_irradiance: SpectralIrradiance) -> Irradiance:
     integrated_upwelling = integrate(spectral_irradiance.upwelling)
     integrated_downwelling = integrate(spectral_irradiance.downwelling)
     return Irradiance(
-        spectral_irradiance.z, integrated_upwelling, integrated_downwelling
+        spectral_irradiance.z,
+        integrated_upwelling,
+        integrated_downwelling,
+        ice_base_index=spectral_irradiance.ice_base_index,
     )
