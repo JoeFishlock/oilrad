@@ -29,6 +29,8 @@ class InfiniteLayerModel:
         if self.liquid_fraction is None:
             self.liquid_fraction = np.full_like(self.z, 0)
 
+        self.ice_base_index = np.argmax(self.liquid_fraction < 1)
+
 
 def _get_ODE_fun(
     model: InfiniteLayerModel, wavelength: float
