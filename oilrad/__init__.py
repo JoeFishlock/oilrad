@@ -1,6 +1,7 @@
-__version__ = "0.5.0"
+__version__ = "0.6.0"
 
 from .irradiance import SpectralIrradiance, Irradiance, integrate_over_SW
+from .spectra import BlackBodySpectrum
 from .single_layer import SingleLayerModel
 from .two_layer import TwoLayerModel
 from .infinite_layer import InfiniteLayerModel
