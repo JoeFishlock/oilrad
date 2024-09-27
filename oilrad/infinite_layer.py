@@ -3,7 +3,7 @@ vertical profile of mass concentration of oil
 """
 
 from dataclasses import dataclass
-from typing import Callable
+from typing import Callable, Optional
 import numpy as np
 from numpy.typing import NDArray
 from scipy.integrate import solve_bvp
@@ -22,7 +22,10 @@ class InfiniteLayerModel:
     ice_type: str
     median_droplet_radius_in_microns: float
 
-    liquid_fraction: NDArray | None = None
+    liquid_fraction: Optional[NDArray] = None
+
+    fast_solve: bool = False
+    wavelength_cutoff: Optional[float] = None
 
     def __post_init__(self):
         """if liquid fraction not passed initialise so domain is entirely ice"""
