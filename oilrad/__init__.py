@@ -1,4 +1,4 @@
-__version__ = "0.6.0"
+__version__ = "0.7.0"
 
 from .irradiance import SpectralIrradiance, Irradiance, integrate_over_SW
 from .spectra import BlackBodySpectrum
