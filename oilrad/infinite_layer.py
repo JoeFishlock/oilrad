@@ -22,6 +22,7 @@ class InfiniteLayerModel:
     ice_scattering_coefficient: float  # in 1/m
     median_droplet_radius_in_microns: float
 
+    absorption_enhancement_factor: float = 1
     liquid_fraction: Optional[NDArray] = None
 
     fast_solve: bool = False
@@ -52,6 +53,7 @@ def _get_ODE_fun(
             wavelength,
             oil_mass_ratio=oil_func(z),
             droplet_radius_in_microns=model.median_droplet_radius_in_microns,
+            absorption_enhancement_factor=model.absorption_enhancement_factor,
         )
 
     def _ODE_fun(z: NDArray, F: NDArray) -> NDArray:

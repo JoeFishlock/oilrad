@@ -100,7 +100,10 @@ def Romashkino_MAC(wavelength_nm, droplet_radius_microns):
 
 
 def calculate_ice_oil_absorption_coefficient(
-    wavelengths_in_nm, oil_mass_ratio, droplet_radius_in_microns
+    wavelengths_in_nm,
+    oil_mass_ratio,
+    droplet_radius_in_microns,
+    absorption_enhancement_factor=1.0,
 ):
     """Calculate the absorption coefficient in 1/m of ice polluted with oil droplets
     following roche et al 2022. The oil droplets radii are distributed log-normally
@@ -109,12 +112,17 @@ def calculate_ice_oil_absorption_coefficient(
     mass ratio in units of ng oil / g ice
 
     This is for Romashkino oil.
+
+    The enahncement factor is an ad hoc correction for the two stream model to try and
+    better match the results of redmondroche2022 which used an 8-stream model
     """
     mass_ratio_dimensionless = oil_mass_ratio * 1e-9
-    return calculate_ice_absorption_coefficient(
-        wavelengths_in_nm
-    ) + mass_ratio_dimensionless * 1e3 * ICE_DENSITY_ROCHE_2022 * Romashkino_MAC(
-        wavelengths_in_nm, droplet_radius_in_microns
+    return absorption_enhancement_factor * (
+        calculate_ice_absorption_coefficient(wavelengths_in_nm)
+        + mass_ratio_dimensionless
+        * 1e3
+        * ICE_DENSITY_ROCHE_2022
+        * Romashkino_MAC(wavelengths_in_nm, droplet_radius_in_microns)
     )
 
 
