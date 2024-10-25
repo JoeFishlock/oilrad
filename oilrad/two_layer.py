@@ -23,7 +23,6 @@ from numpy.typing import NDArray
 from .optics import (
     calculate_ice_oil_absorption_coefficient,
     calculate_ice_oil_extinction_coefficient,
-    calculate_ice_scattering,
 )
 
 
@@ -34,7 +33,7 @@ class TwoLayerModel:
 
     oil_mass_ratio: float
     thickness_ratio: float
-    ice_type: str
+    ice_scattering_coefficient: float  # in 1/m
     median_droplet_radius_in_microns: float
 
     @property
@@ -47,7 +46,7 @@ class TwoLayerModel:
 
     @property
     def r(self):
-        return calculate_ice_scattering(self.ice_type)
+        return self.ice_scattering_coefficient
 
     def k1(self, L):
         return calculate_ice_oil_absorption_coefficient(
@@ -67,7 +66,7 @@ class TwoLayerModel:
         return calculate_ice_oil_extinction_coefficient(
             L,
             oil_mass_ratio=self.top_oil_mass_ratio,
-            ice_type=self.ice_type,
+            ice_scattering_coefficient=self.ice_scattering_coefficient,
             droplet_radius_in_microns=self.median_droplet_radius_in_microns,
         )
 
@@ -75,7 +74,7 @@ class TwoLayerModel:
         return calculate_ice_oil_extinction_coefficient(
             L,
             oil_mass_ratio=0,
-            ice_type=self.ice_type,
+            ice_scattering_coefficient=self.ice_scattering_coefficient,
             droplet_radius_in_microns=self.median_droplet_radius_in_microns,
         )
 

@@ -19,7 +19,6 @@ WARREN_DATA = np.loadtxt(DATADIR / "Warren_2008_ice_refractive_index.dat")
 WARREN_WAVELENGTHS = WARREN_DATA[:, 0]  # in microns
 WARREN_IMAGINARY_REFRACTIVE_INDEX = WARREN_DATA[:, 2]  # dimensionless
 
-SCATTERING_COEFFICIENT_PEROVICH_1990_WHITE_ICE_INTERIOR = 2.5  # in 1/m
 
 ICE_DENSITY_ROCHE_2022 = 800  # in kg/m3
 
@@ -77,35 +76,17 @@ def calculate_ice_absorption_coefficient(wavelength_in_nm):
     return absorption_coefficient
 
 
-def calculate_ice_scattering(ice_type: str):
-    """Calculate ice scattering coefficient (1/m) from redmond roche 2022 et al
-    doesn't depend on wavelength
-    """
-    ICE_ASYMMETRY_PARAM_ROCHE_2022 = 0.98  # dimensionless
-
-    # mass cross section in m2/kg
-    SCATTERING_MASS_CROSS_SECTION_ROCHE_2022 = {"FYI": 0.15, "MYI": 0.75, "MELT": 0.03}
-
-    return (
-        0.5
-        * (1 - ICE_ASYMMETRY_PARAM_ROCHE_2022)
-        * ICE_DENSITY_ROCHE_2022
-        * SCATTERING_MASS_CROSS_SECTION_ROCHE_2022[ice_type]
-    )
-
-
-def calculate_scattering(liquid_fraction: NDArray, ice_type: str):
+def calculate_scattering(liquid_fraction: NDArray, ice_scattering_coefficient: float):
     """Calculate scattering coefficient in ice and return zero in liquid
     doesn't depend on wavelength
     """
 
-    ice_scattering = calculate_ice_scattering(ice_type)
-    return ice_scattering * np.tanh((1 - liquid_fraction) * 100)
+    return ice_scattering_coefficient * np.tanh((1 - liquid_fraction) * 100)
 
 
-def calculate_ice_extinction_coefficient(wavelength_in_nm, ice_type):
+def calculate_ice_extinction_coefficient(wavelength_in_nm, ice_scattering_coefficient):
     k = calculate_ice_absorption_coefficient(wavelength_in_nm)
-    r = calculate_ice_scattering(ice_type)
+    r = ice_scattering_coefficient
     return np.sqrt(k**2 + 2 * k * r)
 
 
@@ -138,7 +119,10 @@ def calculate_ice_oil_absorption_coefficient(
 
 
 def calculate_ice_oil_extinction_coefficient(
-    wavelength_in_nm, oil_mass_ratio, ice_type: str, droplet_radius_in_microns
+    wavelength_in_nm,
+    oil_mass_ratio,
+    ice_scattering_coefficient: float,
+    droplet_radius_in_microns,
 ):
     """oil mass ratio in ng oil/g ice yields extincition coefficient with oil pollution
     in 1/m
@@ -146,5 +130,5 @@ def calculate_ice_oil_extinction_coefficient(
     k = calculate_ice_oil_absorption_coefficient(
         wavelength_in_nm, oil_mass_ratio, droplet_radius_in_microns
     )
-    r = calculate_ice_scattering(ice_type)
+    r = ice_scattering_coefficient
     return np.sqrt(k**2 + 2 * k * r)

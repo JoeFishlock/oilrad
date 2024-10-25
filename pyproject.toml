@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "oilrad"
-version = "0.7.0"
+version = "0.8.0"
 description = "Two stream radiative transfer model for sea ice containing oil droplets."
 authors = ["Joseph Fishlock <joseph.fishlock@physics.ox.ax.uk>"]
 license = "MIT"
