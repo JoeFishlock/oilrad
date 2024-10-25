@@ -19,7 +19,7 @@ class InfiniteLayerModel:
     wavelengths: NDArray
     oil_mass_ratio: NDArray
 
-    ice_type: str
+    ice_scattering_coefficient: float  # in 1/m
     median_droplet_radius_in_microns: float
 
     liquid_fraction: Optional[NDArray] = None
@@ -41,7 +41,7 @@ def _get_ODE_fun(
     def r(z: NDArray) -> NDArray:
         return calculate_scattering(
             np.interp(z, model.z, model.liquid_fraction, left=np.NaN, right=np.NaN),
-            model.ice_type,
+            model.ice_scattering_coefficient,
         )
 
     def oil_func(z: NDArray) -> NDArray:
