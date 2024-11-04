@@ -1,5 +1,5 @@
 """Classes to store solution of two stream spectral model and integrate over
-the SW spectrum
+a given incident shortwave spectrum to return spectrally integrated properties of the solution.
 """
 
 from dataclasses import dataclass
@@ -10,10 +10,16 @@ from .spectra import BlackBodySpectrum
 
 @dataclass(frozen=True)
 class SpectralIrradiance:
-    """vertical grid z specified in dimensional units (m)
-    discretised wavelengths are in nm and define the SW range
-    upwelling and downwelling irradiances are non-dimensional and need to be multiplied
-    by the incident radiation spectrum to regain dimensions.
+    """Two dimensional arrays containing the upwelling and downwelling irradiances at each
+    depth and wavelength.
+
+    Irradiances are non-dimensional and need to be multiplied by the incident spectral radiation.
+
+    Args:
+        z (NDArray): vertical grid specified in dimensional units (m)
+        wavelengths (NDArray): array of wavelengths in nm
+        upwelling (NDArray): 2D array of upwelling irradiances
+        downwelling (NDArray): 2D array of downwelling irradiances
     """
 
     z: NDArray
@@ -21,52 +27,73 @@ class SpectralIrradiance:
     upwelling: NDArray
     downwelling: NDArray
 
-    ice_base_index: int = 0
+    _ice_base_index: int = 0
 
     @property
     def net_irradiance(self) -> NDArray:
+        """Calculate spectral net irradiance"""
         return self.downwelling - self.upwelling
 
     @property
     def albedo(self) -> NDArray:
+        """Calculate spectral albedo"""
         return self.upwelling[-1, :]
 
     @property
     def transmittance(self) -> NDArray:
-        return self.downwelling[self.ice_base_index, :]
+        """Calculate spectral transmittance at the ice ocean interface or the bottom
+        of the domain if the domain is entirely ice."""
+        return self.downwelling[self._ice_base_index, :]
 
 
 @dataclass(frozen=True)
 class Irradiance:
-    """vertical grid z specified in dimensional units (m)
-    upwelling and downwelling irradiances are non-dimensional and need to be multiplied
-    by the incident integrated SW radiation to regain dimensions.
+    """One dimensional Arrays containing the upwelling and downwelling irradiances at each
+    depth integrated over wavelength.
+
+    Irradiances are non-dimensional and need to be multiplied by the incident spectral radiation.
+
+    Args:
+        z (NDArray): vertical grid specified in dimensional units (m)
+        upwelling (NDArray): 1D array of integrated upwelling irradiances
+        downwelling (NDArray): 1D array of integrated downwelling irradiances
     """
 
     z: NDArray
     upwelling: NDArray
     downwelling: NDArray
 
-    ice_base_index: int = 0
+    _ice_base_index: int = 0
 
     @property
     def net_irradiance(self) -> NDArray:
+        """Calculate net irradiance"""
         return self.downwelling - self.upwelling
 
     @property
     def albedo(self) -> NDArray:
+        """Calculate albedo"""
         return self.upwelling[-1]
 
     @property
     def transmittance(self) -> NDArray:
-        return self.downwelling[self.ice_base_index]
+        """Calculate transmittance at the ice ocean interface or the bottom
+        of the domain if the domain is entirely ice."""
+        return self.downwelling[self._ice_base_index]
 
 
 def integrate_over_SW(
     spectral_irradiance: SpectralIrradiance, spectrum: BlackBodySpectrum
 ) -> Irradiance:
-    """integrate over the SW spectrum gven as part of the SpectralIrradiance object
-    weighted by the normalised black body spectrum over this range"""
+    """Integrate over the spectral two-stream model solution over a given incident
+    shortwave spectrum
+
+    Args:
+        spectral_irradiance (SpectralIrradiance): spectral two-stream model solution
+        spectrum (BlackBodySpectrum): incident shortwave spectrum
+    Returns:
+        Irradiance: spectrally integrated irradiances
+    """
     wavelengths = spectral_irradiance.wavelengths
     integrate = lambda irradiance: trapezoid(
         irradiance * spectrum(wavelengths), wavelengths, axis=1
@@ -77,5 +104,5 @@ def integrate_over_SW(
         spectral_irradiance.z,
         integrated_upwelling,
         integrated_downwelling,
-        ice_base_index=spectral_irradiance.ice_base_index,
+        _ice_base_index=spectral_irradiance._ice_base_index,
     )

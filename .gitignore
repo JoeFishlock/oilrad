@@ -4,3 +4,4 @@ figures/
 .DS_store
 **/scratch.py
 dist/
+site/

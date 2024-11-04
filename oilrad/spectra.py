@@ -1,4 +1,10 @@
-"""Data from:
+"""Module to provide the spectrum of incident downwelling shortwave radiation at the
+top of the domain.
+
+Currently only the black body spectrum is integrated which follows the solar spectrum
+at the top of the atmosphere, but is normalised to integrate to one in the shortwave range.
+
+Data used to compute the Planck function is from:
 https://www.oceanopticsbook.info/view/light-and-radiometry/level-2/light-from-the-sun
 """
 from functools import cached_property
@@ -23,7 +29,17 @@ PLANCK_FUNCTION = lambda L, T: (2 * PLANCK * LIGHTSPEED**2 / L**5) * (
 @dataclass(frozen=True)
 class BlackBodySpectrum:
     """Spectrum with blackbody shape that integrates to 1 between minimum and maximum
-    wavelength specified in nm"""
+    wavelength specified in nm
+
+    Once initialised the spectrum can be called with an array of wavelengths in nm.
+
+    Args:
+        min_wavelength: minimum wavelength in nm
+        max_wavelength: maximum wavelength in nm
+
+    Raises:
+        ValueError: if wavelength is not in the shortwave range
+    """
 
     min_wavelength: float
     max_wavelength: float
