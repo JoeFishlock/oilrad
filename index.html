@@ -1,0 +1,2768 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+      
+      
+      <link rel="icon" href="assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.43">
+    
+    
+      
+        <title>oilrad</title>
+      
+    
+    
+      <link rel="stylesheet" href="assets/stylesheets/main.0253249f.min.css">
+      
+        
+        <link rel="stylesheet" href="assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="amber">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#api-reference" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="." title="oilrad" class="md-header__button md-logo" aria-label="oilrad" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            oilrad
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              API Reference
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="." title="oilrad" class="md-nav__button md-logo" aria-label="oilrad" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    oilrad
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    API Reference
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="." class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    API Reference
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#oilrad" class="md-nav__link">
+    <span class="md-ellipsis">
+      oilrad
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#oilrad.infinite_layer" class="md-nav__link">
+    <span class="md-ellipsis">
+      infinite_layer
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="infinite_layer">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#oilrad.infinite_layer.InfiniteLayerModel" class="md-nav__link">
+    <span class="md-ellipsis">
+      InfiniteLayerModel
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#oilrad.infinite_layer.solve_at_given_wavelength" class="md-nav__link">
+    <span class="md-ellipsis">
+      solve_at_given_wavelength
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#oilrad.irradiance" class="md-nav__link">
+    <span class="md-ellipsis">
+      irradiance
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="irradiance">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#oilrad.irradiance.Irradiance" class="md-nav__link">
+    <span class="md-ellipsis">
+      Irradiance
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Irradiance">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#oilrad.irradiance.Irradiance.albedo" class="md-nav__link">
+    <span class="md-ellipsis">
+      albedo
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#oilrad.irradiance.Irradiance.net_irradiance" class="md-nav__link">
+    <span class="md-ellipsis">
+      net_irradiance
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#oilrad.irradiance.Irradiance.transmittance" class="md-nav__link">
+    <span class="md-ellipsis">
+      transmittance
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#oilrad.irradiance.SpectralIrradiance" class="md-nav__link">
+    <span class="md-ellipsis">
+      SpectralIrradiance
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SpectralIrradiance">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#oilrad.irradiance.SpectralIrradiance.albedo" class="md-nav__link">
+    <span class="md-ellipsis">
+      albedo
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#oilrad.irradiance.SpectralIrradiance.net_irradiance" class="md-nav__link">
+    <span class="md-ellipsis">
+      net_irradiance
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#oilrad.irradiance.SpectralIrradiance.transmittance" class="md-nav__link">
+    <span class="md-ellipsis">
+      transmittance
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#oilrad.irradiance.integrate_over_SW" class="md-nav__link">
+    <span class="md-ellipsis">
+      integrate_over_SW
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#oilrad.optics" class="md-nav__link">
+    <span class="md-ellipsis">
+      optics
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="optics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#oilrad.optics.calculate_ice_oil_absorption_coefficient" class="md-nav__link">
+    <span class="md-ellipsis">
+      calculate_ice_oil_absorption_coefficient
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#oilrad.optics.calculate_scattering" class="md-nav__link">
+    <span class="md-ellipsis">
+      calculate_scattering
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#oilrad.solve" class="md-nav__link">
+    <span class="md-ellipsis">
+      solve
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="solve">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#oilrad.solve.solve_two_stream_model" class="md-nav__link">
+    <span class="md-ellipsis">
+      solve_two_stream_model
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#oilrad.spectra" class="md-nav__link">
+    <span class="md-ellipsis">
+      spectra
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="spectra">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#oilrad.spectra.BlackBodySpectrum" class="md-nav__link">
+    <span class="md-ellipsis">
+      BlackBodySpectrum
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#oilrad" class="md-nav__link">
+    <span class="md-ellipsis">
+      oilrad
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#oilrad.infinite_layer" class="md-nav__link">
+    <span class="md-ellipsis">
+      infinite_layer
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="infinite_layer">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#oilrad.infinite_layer.InfiniteLayerModel" class="md-nav__link">
+    <span class="md-ellipsis">
+      InfiniteLayerModel
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#oilrad.infinite_layer.solve_at_given_wavelength" class="md-nav__link">
+    <span class="md-ellipsis">
+      solve_at_given_wavelength
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#oilrad.irradiance" class="md-nav__link">
+    <span class="md-ellipsis">
+      irradiance
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="irradiance">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#oilrad.irradiance.Irradiance" class="md-nav__link">
+    <span class="md-ellipsis">
+      Irradiance
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Irradiance">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#oilrad.irradiance.Irradiance.albedo" class="md-nav__link">
+    <span class="md-ellipsis">
+      albedo
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#oilrad.irradiance.Irradiance.net_irradiance" class="md-nav__link">
+    <span class="md-ellipsis">
+      net_irradiance
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#oilrad.irradiance.Irradiance.transmittance" class="md-nav__link">
+    <span class="md-ellipsis">
+      transmittance
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#oilrad.irradiance.SpectralIrradiance" class="md-nav__link">
+    <span class="md-ellipsis">
+      SpectralIrradiance
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SpectralIrradiance">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#oilrad.irradiance.SpectralIrradiance.albedo" class="md-nav__link">
+    <span class="md-ellipsis">
+      albedo
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#oilrad.irradiance.SpectralIrradiance.net_irradiance" class="md-nav__link">
+    <span class="md-ellipsis">
+      net_irradiance
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#oilrad.irradiance.SpectralIrradiance.transmittance" class="md-nav__link">
+    <span class="md-ellipsis">
+      transmittance
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#oilrad.irradiance.integrate_over_SW" class="md-nav__link">
+    <span class="md-ellipsis">
+      integrate_over_SW
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#oilrad.optics" class="md-nav__link">
+    <span class="md-ellipsis">
+      optics
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="optics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#oilrad.optics.calculate_ice_oil_absorption_coefficient" class="md-nav__link">
+    <span class="md-ellipsis">
+      calculate_ice_oil_absorption_coefficient
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#oilrad.optics.calculate_scattering" class="md-nav__link">
+    <span class="md-ellipsis">
+      calculate_scattering
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#oilrad.solve" class="md-nav__link">
+    <span class="md-ellipsis">
+      solve
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="solve">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#oilrad.solve.solve_two_stream_model" class="md-nav__link">
+    <span class="md-ellipsis">
+      solve_two_stream_model
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#oilrad.spectra" class="md-nav__link">
+    <span class="md-ellipsis">
+      spectra
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="spectra">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#oilrad.spectra.BlackBodySpectrum" class="md-nav__link">
+    <span class="md-ellipsis">
+      BlackBodySpectrum
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="api-reference">API Reference</h1>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+<a id="oilrad"></a>
+    <div class="doc doc-contents first">
+
+        <p>Two-stream shortwave radiative transfer model for sea ice containing oil droplets.</p>
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-module">
+
+
+
+<h2 id="oilrad.infinite_layer" class="doc doc-heading">
+            <code>infinite_layer</code>
+
+
+</h2>
+
+    <div class="doc doc-contents ">
+
+        <p>Solve the two-stream shortwave radiation model.</p>
+<p>Infinite layer refers to the continuous variation of the optical properties with depth.</p>
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="oilrad.infinite_layer.InfiniteLayerModel" class="doc doc-heading">
+            <code>InfiniteLayerModel</code>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-dataclass"><code>dataclass</code></small>
+  </span>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+
+        <p>Class containing all the necessary parameters to solve the two-stream shortwave
+radiative transfer model in a domain with continuously varying liquid fraction and
+oil mass ratio.</p>
+<p>If no array is provided for liquid fraction, it is assumed to be zero everywhere.
+This corresponds to a completely frozen domain.</p>
+<p>Oil mass ratio is provided in ng oil / g ice and, along with the median droplet radius
+for the oil droplet distribution, is used to calculate the absorption coefficient
+by interpolating data for Romashkino oil from Redmond Roche et al. 2022.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>z</code>
+            </td>
+            <td>
+                  <code><span title="numpy.typing.NDArray">NDArray</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>vertical grid in meters</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>wavelengths</code>
+            </td>
+            <td>
+                  <code><span title="numpy.typing.NDArray">NDArray</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>array of wavelengths in nm</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>oil_mass_ratio</code>
+            </td>
+            <td>
+                  <code><span title="numpy.typing.NDArray">NDArray</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>array of oil mass ratio in ng oil / g ice on the vertical grid</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>ice_scattering_coefficient</code>
+            </td>
+            <td>
+                  <code>float</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>scattering coefficient for ice in 1/m</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>median_droplet_radius_in_microns</code>
+            </td>
+            <td>
+                  <code>float</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>median droplet radius in microns</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>absorption_enhancement_factor</code>
+            </td>
+            <td>
+                  <code>float</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>enhancement factor for oil absorption appropriate for the two-stream model</p>
+              </div>
+            </td>
+            <td>
+                  <code>1</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>liquid_fraction</code>
+            </td>
+            <td>
+                  <code><span title="numpy.typing.NDArray">NDArray</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>liquid fraction array on the vertical grid</p>
+              </div>
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>fast_solve</code>
+            </td>
+            <td>
+                  <code>Bool</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>if True, solve the model only for wavelengths below a wavelength cutoff, assume longer wavelengths are absorbed at the surface</p>
+              </div>
+            </td>
+            <td>
+                  <code>False</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>wavelength_cutoff</code>
+            </td>
+            <td>
+                  <code>float</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>cutoff wavelength in nm</p>
+              </div>
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+
+
+
+
+              <details class="quote">
+                <summary>Source code in <code>oilrad/infinite_layer.py</code></summary>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span>
+<span class="normal">48</span>
+<span class="normal">49</span>
+<span class="normal">50</span>
+<span class="normal">51</span>
+<span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">InfiniteLayerModel</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Class containing all the necessary parameters to solve the two-stream shortwave</span>
+<span class="sd">    radiative transfer model in a domain with continuously varying liquid fraction and</span>
+<span class="sd">    oil mass ratio.</span>
+
+<span class="sd">    If no array is provided for liquid fraction, it is assumed to be zero everywhere.</span>
+<span class="sd">    This corresponds to a completely frozen domain.</span>
+
+<span class="sd">    Oil mass ratio is provided in ng oil / g ice and, along with the median droplet radius</span>
+<span class="sd">    for the oil droplet distribution, is used to calculate the absorption coefficient</span>
+<span class="sd">    by interpolating data for Romashkino oil from Redmond Roche et al. 2022.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        z (NDArray): vertical grid in meters</span>
+<span class="sd">        wavelengths (NDArray): array of wavelengths in nm</span>
+<span class="sd">        oil_mass_ratio (NDArray): array of oil mass ratio in ng oil / g ice on the vertical grid</span>
+<span class="sd">        ice_scattering_coefficient (float): scattering coefficient for ice in 1/m</span>
+<span class="sd">        median_droplet_radius_in_microns (float): median droplet radius in microns</span>
+<span class="sd">        absorption_enhancement_factor (float): enhancement factor for oil absorption appropriate for the two-stream model</span>
+<span class="sd">        liquid_fraction (NDArray): liquid fraction array on the vertical grid</span>
+<span class="sd">        fast_solve (Bool): if True, solve the model only for wavelengths below a wavelength cutoff, assume longer wavelengths are absorbed at the surface</span>
+<span class="sd">        wavelength_cutoff (float): cutoff wavelength in nm</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">z</span><span class="p">:</span> <span class="n">NDArray</span>
+    <span class="n">wavelengths</span><span class="p">:</span> <span class="n">NDArray</span>
+    <span class="n">oil_mass_ratio</span><span class="p">:</span> <span class="n">NDArray</span>
+    <span class="n">ice_scattering_coefficient</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">median_droplet_radius_in_microns</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">absorption_enhancement_factor</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">liquid_fraction</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">NDArray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">fast_solve</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">wavelength_cutoff</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># initialise liquid fraction as zero everywhere if not provided</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">liquid_fraction</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">liquid_fraction</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full_like</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+        <span class="c1"># find the index of the ice ocean interface</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ice_base_index</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">liquid_fraction</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+              </details>
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="oilrad.infinite_layer.solve_at_given_wavelength" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">solve_at_given_wavelength</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">wavelength</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Use the scipy solve_bcp function to solve the two-stream model as a function of
+depth for a given wavelenght value.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>model</code>
+            </td>
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="oilrad.infinite_layer.InfiniteLayerModel" href="#oilrad.infinite_layer.InfiniteLayerModel">InfiniteLayerModel</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>model parameters</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>wavelength</code>
+            </td>
+            <td>
+                  <code>float</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>wavelength in nm</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+        <p>Returns:
+    tuple[NDArray, NDArray]: upwelling and downwelling irradiances as functions of depth
+Raises:
+    RuntimeError: if the solver does not converge</p>
+
+            <details class="quote">
+              <summary>Source code in <code>oilrad/infinite_layer.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">solve_at_given_wavelength</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">wavelength</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">NDArray</span><span class="p">,</span> <span class="n">NDArray</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Use the scipy solve_bcp function to solve the two-stream model as a function of</span>
+<span class="sd">    depth for a given wavelenght value.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        model (InfiniteLayerModel): model parameters</span>
+<span class="sd">        wavelength (float): wavelength in nm</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        tuple[NDArray, NDArray]: upwelling and downwelling irradiances as functions of depth</span>
+<span class="sd">    Raises:</span>
+<span class="sd">        RuntimeError: if the solver does not converge</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">fun</span> <span class="o">=</span> <span class="n">_get_ODE_fun</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">wavelength</span><span class="p">)</span>
+    <span class="n">solution</span> <span class="o">=</span> <span class="n">solve_bvp</span><span class="p">(</span>
+        <span class="n">fun</span><span class="p">,</span>
+        <span class="n">_BCs</span><span class="p">,</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">z</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">model</span><span class="o">.</span><span class="n">z</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="mi">5</span><span class="p">),</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">)),</span>
+        <span class="n">max_nodes</span><span class="o">=</span><span class="mi">12000</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">solution</span><span class="o">.</span><span class="n">success</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">solution</span><span class="o">.</span><span class="n">message</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">solution</span><span class="o">.</span><span class="n">sol</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">z</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">solution</span><span class="o">.</span><span class="n">sol</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">z</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-module">
+
+
+
+<h2 id="oilrad.irradiance" class="doc doc-heading">
+            <code>irradiance</code>
+
+
+</h2>
+
+    <div class="doc doc-contents ">
+
+        <p>Classes to store solution of two stream spectral model and integrate over
+a given incident shortwave spectrum to return spectrally integrated properties of the solution.</p>
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="oilrad.irradiance.Irradiance" class="doc doc-heading">
+            <code>Irradiance</code>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-dataclass"><code>dataclass</code></small>
+  </span>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+
+        <p>One dimensional Arrays containing the upwelling and downwelling irradiances at each
+depth integrated over wavelength.</p>
+<p>Irradiances are non-dimensional and need to be multiplied by the incident spectral radiation.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>z</code>
+            </td>
+            <td>
+                  <code><span title="numpy.typing.NDArray">NDArray</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>vertical grid specified in dimensional units (m)</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>upwelling</code>
+            </td>
+            <td>
+                  <code><span title="numpy.typing.NDArray">NDArray</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>1D array of integrated upwelling irradiances</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>downwelling</code>
+            </td>
+            <td>
+                  <code><span title="numpy.typing.NDArray">NDArray</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>1D array of integrated downwelling irradiances</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+
+
+
+
+              <details class="quote">
+                <summary>Source code in <code>oilrad/irradiance.py</code></summary>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">49</span>
+<span class="normal">50</span>
+<span class="normal">51</span>
+<span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span>
+<span class="normal">68</span>
+<span class="normal">69</span>
+<span class="normal">70</span>
+<span class="normal">71</span>
+<span class="normal">72</span>
+<span class="normal">73</span>
+<span class="normal">74</span>
+<span class="normal">75</span>
+<span class="normal">76</span>
+<span class="normal">77</span>
+<span class="normal">78</span>
+<span class="normal">79</span>
+<span class="normal">80</span>
+<span class="normal">81</span>
+<span class="normal">82</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">Irradiance</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;One dimensional Arrays containing the upwelling and downwelling irradiances at each</span>
+<span class="sd">    depth integrated over wavelength.</span>
+
+<span class="sd">    Irradiances are non-dimensional and need to be multiplied by the incident spectral radiation.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        z (NDArray): vertical grid specified in dimensional units (m)</span>
+<span class="sd">        upwelling (NDArray): 1D array of integrated upwelling irradiances</span>
+<span class="sd">        downwelling (NDArray): 1D array of integrated downwelling irradiances</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">z</span><span class="p">:</span> <span class="n">NDArray</span>
+    <span class="n">upwelling</span><span class="p">:</span> <span class="n">NDArray</span>
+    <span class="n">downwelling</span><span class="p">:</span> <span class="n">NDArray</span>
+
+    <span class="n">_ice_base_index</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">net_irradiance</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate net irradiance&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">downwelling</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">upwelling</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">albedo</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate albedo&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">upwelling</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">transmittance</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate transmittance at the ice ocean interface or the bottom</span>
+<span class="sd">        of the domain if the domain is entirely ice.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">downwelling</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_ice_base_index</span><span class="p">]</span>
+</code></pre></div></td></tr></table></div>
+              </details>
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="oilrad.irradiance.Irradiance.albedo" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">albedo</span><span class="p">:</span> <span class="n">NDArray</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Calculate albedo</p>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="oilrad.irradiance.Irradiance.net_irradiance" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">net_irradiance</span><span class="p">:</span> <span class="n">NDArray</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Calculate net irradiance</p>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="oilrad.irradiance.Irradiance.transmittance" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">transmittance</span><span class="p">:</span> <span class="n">NDArray</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Calculate transmittance at the ice ocean interface or the bottom
+of the domain if the domain is entirely ice.</p>
+    </div>
+
+</div>
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="oilrad.irradiance.SpectralIrradiance" class="doc doc-heading">
+            <code>SpectralIrradiance</code>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-dataclass"><code>dataclass</code></small>
+  </span>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+
+        <p>Two dimensional arrays containing the upwelling and downwelling irradiances at each
+depth and wavelength.</p>
+<p>Irradiances are non-dimensional and need to be multiplied by the incident spectral radiation.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>z</code>
+            </td>
+            <td>
+                  <code><span title="numpy.typing.NDArray">NDArray</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>vertical grid specified in dimensional units (m)</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>wavelengths</code>
+            </td>
+            <td>
+                  <code><span title="numpy.typing.NDArray">NDArray</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>array of wavelengths in nm</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>upwelling</code>
+            </td>
+            <td>
+                  <code><span title="numpy.typing.NDArray">NDArray</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>2D array of upwelling irradiances</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>downwelling</code>
+            </td>
+            <td>
+                  <code><span title="numpy.typing.NDArray">NDArray</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>2D array of downwelling irradiances</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+
+
+
+
+              <details class="quote">
+                <summary>Source code in <code>oilrad/irradiance.py</code></summary>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">SpectralIrradiance</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Two dimensional arrays containing the upwelling and downwelling irradiances at each</span>
+<span class="sd">    depth and wavelength.</span>
+
+<span class="sd">    Irradiances are non-dimensional and need to be multiplied by the incident spectral radiation.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        z (NDArray): vertical grid specified in dimensional units (m)</span>
+<span class="sd">        wavelengths (NDArray): array of wavelengths in nm</span>
+<span class="sd">        upwelling (NDArray): 2D array of upwelling irradiances</span>
+<span class="sd">        downwelling (NDArray): 2D array of downwelling irradiances</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">z</span><span class="p">:</span> <span class="n">NDArray</span>
+    <span class="n">wavelengths</span><span class="p">:</span> <span class="n">NDArray</span>
+    <span class="n">upwelling</span><span class="p">:</span> <span class="n">NDArray</span>
+    <span class="n">downwelling</span><span class="p">:</span> <span class="n">NDArray</span>
+
+    <span class="n">_ice_base_index</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">net_irradiance</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate spectral net irradiance&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">downwelling</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">upwelling</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">albedo</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate spectral albedo&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">upwelling</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">transmittance</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate spectral transmittance at the ice ocean interface or the bottom</span>
+<span class="sd">        of the domain if the domain is entirely ice.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">downwelling</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_ice_base_index</span><span class="p">,</span> <span class="p">:]</span>
+</code></pre></div></td></tr></table></div>
+              </details>
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="oilrad.irradiance.SpectralIrradiance.albedo" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">albedo</span><span class="p">:</span> <span class="n">NDArray</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Calculate spectral albedo</p>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="oilrad.irradiance.SpectralIrradiance.net_irradiance" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">net_irradiance</span><span class="p">:</span> <span class="n">NDArray</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Calculate spectral net irradiance</p>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="oilrad.irradiance.SpectralIrradiance.transmittance" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">transmittance</span><span class="p">:</span> <span class="n">NDArray</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Calculate spectral transmittance at the ice ocean interface or the bottom
+of the domain if the domain is entirely ice.</p>
+    </div>
+
+</div>
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="oilrad.irradiance.integrate_over_SW" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">integrate_over_SW</span><span class="p">(</span><span class="n">spectral_irradiance</span><span class="p">,</span> <span class="n">spectrum</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Integrate over the spectral two-stream model solution over a given incident
+shortwave spectrum</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>spectral_irradiance</code>
+            </td>
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="oilrad.irradiance.SpectralIrradiance" href="#oilrad.irradiance.SpectralIrradiance">SpectralIrradiance</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>spectral two-stream model solution</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>spectrum</code>
+            </td>
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="oilrad.spectra.BlackBodySpectrum" href="#oilrad.spectra.BlackBodySpectrum">BlackBodySpectrum</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>incident shortwave spectrum</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+        <p>Returns:
+    Irradiance: spectrally integrated irradiances</p>
+
+            <details class="quote">
+              <summary>Source code in <code>oilrad/irradiance.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 85</span>
+<span class="normal"> 86</span>
+<span class="normal"> 87</span>
+<span class="normal"> 88</span>
+<span class="normal"> 89</span>
+<span class="normal"> 90</span>
+<span class="normal"> 91</span>
+<span class="normal"> 92</span>
+<span class="normal"> 93</span>
+<span class="normal"> 94</span>
+<span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">integrate_over_SW</span><span class="p">(</span>
+    <span class="n">spectral_irradiance</span><span class="p">:</span> <span class="n">SpectralIrradiance</span><span class="p">,</span> <span class="n">spectrum</span><span class="p">:</span> <span class="n">BlackBodySpectrum</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Irradiance</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Integrate over the spectral two-stream model solution over a given incident</span>
+<span class="sd">    shortwave spectrum</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        spectral_irradiance (SpectralIrradiance): spectral two-stream model solution</span>
+<span class="sd">        spectrum (BlackBodySpectrum): incident shortwave spectrum</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        Irradiance: spectrally integrated irradiances</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">wavelengths</span> <span class="o">=</span> <span class="n">spectral_irradiance</span><span class="o">.</span><span class="n">wavelengths</span>
+    <span class="n">integrate</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">irradiance</span><span class="p">:</span> <span class="n">trapezoid</span><span class="p">(</span>
+        <span class="n">irradiance</span> <span class="o">*</span> <span class="n">spectrum</span><span class="p">(</span><span class="n">wavelengths</span><span class="p">),</span> <span class="n">wavelengths</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span>
+    <span class="p">)</span>
+    <span class="n">integrated_upwelling</span> <span class="o">=</span> <span class="n">integrate</span><span class="p">(</span><span class="n">spectral_irradiance</span><span class="o">.</span><span class="n">upwelling</span><span class="p">)</span>
+    <span class="n">integrated_downwelling</span> <span class="o">=</span> <span class="n">integrate</span><span class="p">(</span><span class="n">spectral_irradiance</span><span class="o">.</span><span class="n">downwelling</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">Irradiance</span><span class="p">(</span>
+        <span class="n">spectral_irradiance</span><span class="o">.</span><span class="n">z</span><span class="p">,</span>
+        <span class="n">integrated_upwelling</span><span class="p">,</span>
+        <span class="n">integrated_downwelling</span><span class="p">,</span>
+        <span class="n">_ice_base_index</span><span class="o">=</span><span class="n">spectral_irradiance</span><span class="o">.</span><span class="n">_ice_base_index</span><span class="p">,</span>
+    <span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-module">
+
+
+
+<h2 id="oilrad.optics" class="doc doc-heading">
+            <code>optics</code>
+
+
+</h2>
+
+    <div class="doc doc-contents ">
+
+        <p>Module to calculate the optical properties for ice containing oil droplets:
+- The spectral absorption coefficient which depends on oil mass concentration and droplet size
+- The wavelength-independent scattering coefficient which takes a constant value in the ice and is zero the liquid</p>
+<p>Load data for imaginary refractive index against wavelength from
+doi:10.1029/2007JD009744.
+This is used to calculate the absorption coefficient of pure ice.
+To interpolate the data to other wavelengths should interpolate the log of the data
+linearly.</p>
+<p>Oil absorption calculated following Redmond Roche et al 2022 using given data for mass
+absorption coefficient of oil in ice which is a function of wavelength and droplet radius</p>
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="oilrad.optics.calculate_ice_oil_absorption_coefficient" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">calculate_ice_oil_absorption_coefficient</span><span class="p">(</span><span class="n">wavelengths_in_nm</span><span class="p">,</span> <span class="n">oil_mass_ratio</span><span class="p">,</span> <span class="n">droplet_radius_in_microns</span><span class="p">,</span> <span class="n">absorption_enhancement_factor</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Calculate the absorption coefficient in 1/m of ice polluted with oil droplets
+following roche et al 2022. The oil droplets radii are distributed log-normally
+with geometric standard deviation e. We specify the median radius for the distribution.</p>
+<p>mass ratio in units of ng oil / g ice</p>
+<p>This is for Romashkino oil.</p>
+<p>The enahncement factor is an ad hoc correction for the two stream model to try and
+better match the results of redmondroche2022 which used an 8-stream model</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>wavelengths_in_nm</code>
+            </td>
+            <td>
+                  <code><span title="numpy.typing.NDArray">NDArray</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>wavelengths in nm</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>oil_mass_ratio</code>
+            </td>
+            <td>
+                  <code>float</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>mass ratio of oil in ice in ng/g</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>droplet_radius_in_microns</code>
+            </td>
+            <td>
+                  <code>float</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>median droplet radius in microns</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>absorption_enhancement_factor</code>
+            </td>
+            <td>
+                  <code>float</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>enhancement factor for absorption coefficient. Defaults to 1.0.</p>
+              </div>
+            </td>
+            <td>
+                  <code>1.0</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+<th>Name</th>          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+<td><code>NDArray</code></td>            <td>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>absorption coefficient in 1/m</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+            <details class="quote">
+              <summary>Source code in <code>oilrad/optics.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span>
+<span class="normal">136</span>
+<span class="normal">137</span>
+<span class="normal">138</span>
+<span class="normal">139</span>
+<span class="normal">140</span>
+<span class="normal">141</span>
+<span class="normal">142</span>
+<span class="normal">143</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">calculate_ice_oil_absorption_coefficient</span><span class="p">(</span>
+    <span class="n">wavelengths_in_nm</span><span class="p">,</span>
+    <span class="n">oil_mass_ratio</span><span class="p">,</span>
+    <span class="n">droplet_radius_in_microns</span><span class="p">,</span>
+    <span class="n">absorption_enhancement_factor</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculate the absorption coefficient in 1/m of ice polluted with oil droplets</span>
+<span class="sd">    following roche et al 2022. The oil droplets radii are distributed log-normally</span>
+<span class="sd">    with geometric standard deviation e. We specify the median radius for the distribution.</span>
+
+<span class="sd">    mass ratio in units of ng oil / g ice</span>
+
+<span class="sd">    This is for Romashkino oil.</span>
+
+<span class="sd">    The enahncement factor is an ad hoc correction for the two stream model to try and</span>
+<span class="sd">    better match the results of redmondroche2022 which used an 8-stream model</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        wavelengths_in_nm (NDArray): wavelengths in nm</span>
+<span class="sd">        oil_mass_ratio (float): mass ratio of oil in ice in ng/g</span>
+<span class="sd">        droplet_radius_in_microns (float): median droplet radius in microns</span>
+<span class="sd">        absorption_enhancement_factor (float, optional): enhancement factor for absorption coefficient. Defaults to 1.0.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        NDArray: absorption coefficient in 1/m</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ICE_DENSITY_ROCHE_2022</span> <span class="o">=</span> <span class="mi">800</span>  <span class="c1"># in kg/m3</span>
+    <span class="n">mass_ratio_dimensionless</span> <span class="o">=</span> <span class="n">oil_mass_ratio</span> <span class="o">*</span> <span class="mf">1e-9</span>
+    <span class="k">return</span> <span class="n">absorption_enhancement_factor</span> <span class="o">*</span> <span class="p">(</span>
+        <span class="n">_calculate_ice_absorption_coefficient</span><span class="p">(</span><span class="n">wavelengths_in_nm</span><span class="p">)</span>
+        <span class="o">+</span> <span class="n">mass_ratio_dimensionless</span>
+        <span class="o">*</span> <span class="mf">1e3</span>
+        <span class="o">*</span> <span class="n">ICE_DENSITY_ROCHE_2022</span>
+        <span class="o">*</span> <span class="n">_Romashkino_MAC</span><span class="p">(</span><span class="n">wavelengths_in_nm</span><span class="p">,</span> <span class="n">droplet_radius_in_microns</span><span class="p">)</span>
+    <span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="oilrad.optics.calculate_scattering" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">calculate_scattering</span><span class="p">(</span><span class="n">liquid_fraction</span><span class="p">,</span> <span class="n">ice_scattering_coefficient</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Calculate scattering coefficient in ice and return zero in liquid.
+(doesn't depend on wavelength)</p>
+<p>Smoothly transitions from the ice_scattering_coefficient to zero in the liquid using a tanh function.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>liquid_fraction</code>
+            </td>
+            <td>
+                  <code><span title="numpy.typing.NDArray">NDArray</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>liquid fraction as a function of depth</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>ice_scattering_coefficient</code>
+            </td>
+            <td>
+                  <code>float</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>scattering coefficient of ice</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+<th>Name</th>          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+<td><code>NDArray</code></td>            <td>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>scattering coefficient [1/m] as a function of depth</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+            <details class="quote">
+              <summary>Source code in <code>oilrad/optics.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">81</span>
+<span class="normal">82</span>
+<span class="normal">83</span>
+<span class="normal">84</span>
+<span class="normal">85</span>
+<span class="normal">86</span>
+<span class="normal">87</span>
+<span class="normal">88</span>
+<span class="normal">89</span>
+<span class="normal">90</span>
+<span class="normal">91</span>
+<span class="normal">92</span>
+<span class="normal">93</span>
+<span class="normal">94</span>
+<span class="normal">95</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">calculate_scattering</span><span class="p">(</span><span class="n">liquid_fraction</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">,</span> <span class="n">ice_scattering_coefficient</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculate scattering coefficient in ice and return zero in liquid.</span>
+<span class="sd">    (doesn&#39;t depend on wavelength)</span>
+
+<span class="sd">    Smoothly transitions from the ice_scattering_coefficient to zero in the liquid using a tanh function.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        liquid_fraction (NDArray): liquid fraction as a function of depth</span>
+<span class="sd">        ice_scattering_coefficient (float): scattering coefficient of ice</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        NDArray: scattering coefficient [1/m] as a function of depth</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">return</span> <span class="n">ice_scattering_coefficient</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">tanh</span><span class="p">((</span><span class="mi">1</span> <span class="o">-</span> <span class="n">liquid_fraction</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-module">
+
+
+
+<h2 id="oilrad.solve" class="doc doc-heading">
+            <code>solve</code>
+
+
+</h2>
+
+    <div class="doc doc-contents ">
+
+        <p>Provide a function to solve the two-stream model in the case of continuously varying
+optical properties which implements a faster solve approximation for long wavelengths if
+the fast_solve parameter of the model is set to True.</p>
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="oilrad.solve.solve_two_stream_model" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">solve_two_stream_model</span><span class="p">(</span><span class="n">model</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Solve the two-stream model and return an object containing the solution at all
+specified wavelengths</p>
+<p>Args (InfiniteLayerModel):
+    model: two-stream model parameters</p>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+<th>Name</th>          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+<td><code>SpectralIrradiance</code></td>            <td>
+                  <code><a class="autorefs autorefs-internal" title="oilrad.irradiance.SpectralIrradiance" href="#oilrad.irradiance.SpectralIrradiance">SpectralIrradiance</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>object containing the solution of the two-stream model at each wavelength</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+            <details class="quote">
+              <summary>Source code in <code>oilrad/solve.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span>
+<span class="normal">48</span>
+<span class="normal">49</span>
+<span class="normal">50</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">solve_two_stream_model</span><span class="p">(</span>
+    <span class="n">model</span><span class="p">:</span> <span class="n">InfiniteLayerModel</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SpectralIrradiance</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Solve the two-stream model and return an object containing the solution at all</span>
+<span class="sd">    specified wavelengths</span>
+
+<span class="sd">    Args (InfiniteLayerModel):</span>
+<span class="sd">        model: two-stream model parameters</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        SpectralIrradiance: object containing the solution of the two-stream model at each wavelength</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">upwelling</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="n">model</span><span class="o">.</span><span class="n">z</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">wavelengths</span><span class="o">.</span><span class="n">size</span><span class="p">))</span>
+    <span class="n">downwelling</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="n">model</span><span class="o">.</span><span class="n">z</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">wavelengths</span><span class="o">.</span><span class="n">size</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">model</span><span class="o">.</span><span class="n">fast_solve</span><span class="p">:</span>
+        <span class="n">cut_off_index</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">wavelengths</span> <span class="o">-</span> <span class="n">model</span><span class="o">.</span><span class="n">wavelength_cutoff</span><span class="p">))</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="p">)</span>
+        <span class="n">is_surface</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">s_</span><span class="p">[</span><span class="n">cut_off_index</span><span class="p">:]</span>
+        <span class="n">is_interior</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">s_</span><span class="p">[:</span><span class="n">cut_off_index</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">wavelength</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">wavelengths</span><span class="p">[</span><span class="n">is_interior</span><span class="p">]):</span>
+            <span class="n">col_upwelling</span><span class="p">,</span> <span class="n">col_downwelling</span> <span class="o">=</span> <span class="n">solve_at_given_wavelength</span><span class="p">(</span>
+                <span class="n">model</span><span class="p">,</span> <span class="n">wavelength</span>
+            <span class="p">)</span>
+            <span class="n">upwelling</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">col_upwelling</span>
+            <span class="n">downwelling</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">col_downwelling</span>
+
+        <span class="n">upwelling</span><span class="p">[:,</span> <span class="n">is_surface</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">downwelling</span><span class="p">[:,</span> <span class="n">is_surface</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">downwelling</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">is_surface</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">wavelength</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">wavelengths</span><span class="p">):</span>
+            <span class="n">col_upwelling</span><span class="p">,</span> <span class="n">col_downwelling</span> <span class="o">=</span> <span class="n">solve_at_given_wavelength</span><span class="p">(</span>
+                <span class="n">model</span><span class="p">,</span> <span class="n">wavelength</span>
+            <span class="p">)</span>
+            <span class="n">upwelling</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">col_upwelling</span>
+            <span class="n">downwelling</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">col_downwelling</span>
+    <span class="k">return</span> <span class="n">SpectralIrradiance</span><span class="p">(</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">z</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">wavelengths</span><span class="p">,</span> <span class="n">upwelling</span><span class="p">,</span> <span class="n">downwelling</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">_ice_base_index</span>
+    <span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-module">
+
+
+
+<h2 id="oilrad.spectra" class="doc doc-heading">
+            <code>spectra</code>
+
+
+</h2>
+
+    <div class="doc doc-contents ">
+
+        <p>Module to provide the spectrum of incident downwelling shortwave radiation at the
+top of the domain.</p>
+<p>Currently only the black body spectrum is integrated which follows the solar spectrum
+at the top of the atmosphere, but is normalised to integrate to one in the shortwave range.</p>
+<p>Data used to compute the Planck function is from:
+https://www.oceanopticsbook.info/view/light-and-radiometry/level-2/light-from-the-sun</p>
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="oilrad.spectra.BlackBodySpectrum" class="doc doc-heading">
+            <code>BlackBodySpectrum</code>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-dataclass"><code>dataclass</code></small>
+  </span>
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+
+
+        <p>Spectrum with blackbody shape that integrates to 1 between minimum and maximum
+wavelength specified in nm</p>
+<p>Once initialised the spectrum can be called with an array of wavelengths in nm.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>min_wavelength</code>
+            </td>
+            <td>
+                  <code>float</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>minimum wavelength in nm</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>max_wavelength</code>
+            </td>
+            <td>
+                  <code>float</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>maximum wavelength in nm</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<p><span class="doc-section-title">Raises:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code>ValueError</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>if wavelength is not in the shortwave range</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+
+
+
+
+              <details class="quote">
+                <summary>Source code in <code>oilrad/spectra.py</code></summary>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span>
+<span class="normal">48</span>
+<span class="normal">49</span>
+<span class="normal">50</span>
+<span class="normal">51</span>
+<span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span>
+<span class="normal">68</span>
+<span class="normal">69</span>
+<span class="normal">70</span>
+<span class="normal">71</span>
+<span class="normal">72</span>
+<span class="normal">73</span>
+<span class="normal">74</span>
+<span class="normal">75</span>
+<span class="normal">76</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">BlackBodySpectrum</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Spectrum with blackbody shape that integrates to 1 between minimum and maximum</span>
+<span class="sd">    wavelength specified in nm</span>
+
+<span class="sd">    Once initialised the spectrum can be called with an array of wavelengths in nm.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        min_wavelength: minimum wavelength in nm</span>
+<span class="sd">        max_wavelength: maximum wavelength in nm</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: if wavelength is not in the shortwave range</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">min_wavelength</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">max_wavelength</span><span class="p">:</span> <span class="nb">float</span>
+
+    <span class="nd">@cached_property</span>
+    <span class="k">def</span> <span class="nf">_total_irradiance</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">quad</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_top_of_atmosphere_irradiance</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">min_wavelength</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_wavelength</span>
+        <span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_top_of_atmosphere_irradiance</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">wavelength_in_nm</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;For wavelength in nm and temperature in K return top of atmosphere solar</span>
+<span class="sd">        irradiance in W/m2 nm</span>
+<span class="sd">        https://www.oceanopticsbook.info/view/light-and-radiometry/level-2/blackbody-radiation</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="n">PLANCK_FUNCTION</span><span class="p">(</span><span class="n">wavelength_in_nm</span> <span class="o">*</span> <span class="mf">1e-9</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="mi">5782</span><span class="p">)</span>
+            <span class="o">*</span> <span class="p">(</span><span class="n">SUN_RADIUS</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="n">AU</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+            <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span>
+            <span class="o">*</span> <span class="mf">1e-9</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wavelength_in_nm</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">wavelength_in_nm</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_wavelength</span><span class="p">)</span> <span class="ow">or</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span>
+            <span class="n">wavelength_in_nm</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">min_wavelength</span>
+        <span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;wavelength not in shortwave range </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">min_wavelength</span><span class="si">}</span><span class="s2">nm - </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">max_wavelength</span><span class="si">}</span><span class="s2">nm&quot;</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_top_of_atmosphere_irradiance</span><span class="p">(</span><span class="n">wavelength_in_nm</span><span class="p">)</span>
+            <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">_total_irradiance</span>
+        <span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+              </details>
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": ".", "features": [], "search": "assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="assets/javascripts/bundle.83f73b43.min.js"></script>
+      
+    
+  </body>
+</html>
