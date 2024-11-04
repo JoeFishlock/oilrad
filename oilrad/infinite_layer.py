@@ -41,12 +41,12 @@ def _get_ODE_fun(
 ) -> Callable[[NDArray, NDArray], NDArray]:
     def r(z: NDArray) -> NDArray:
         return calculate_scattering(
-            np.interp(z, model.z, model.liquid_fraction, left=np.NaN, right=np.NaN),
+            np.interp(z, model.z, model.liquid_fraction, left=np.nan, right=np.nan),
             model.ice_scattering_coefficient,
         )
 
     def oil_func(z: NDArray) -> NDArray:
-        return np.interp(z, model.z, model.oil_mass_ratio, left=np.NaN, right=np.NaN)
+        return np.interp(z, model.z, model.oil_mass_ratio, left=np.nan, right=np.nan)
 
     def k(z: NDArray) -> NDArray:
         return calculate_ice_oil_absorption_coefficient(
