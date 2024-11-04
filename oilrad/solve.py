@@ -1,8 +1,6 @@
-"""Define an interface here that all solutions of the two stream radiation model
-implement. Specifically once a model is initialised from its required parameters it
-will provide methods to determine the upwelling radiation, downwelling radiation and
-the radiative heating as functions of depth and wavelength. It will also provide
-methods for the spectral albedo and transmission."""
+"""Provide a function to solve the two-stream model in the case of continuously varying
+optical properties which implements a faster solve approximation for long wavelengths if
+the fast_solve parameter of the model is set to True."""
 
 import numpy as np
 from .infinite_layer import InfiniteLayerModel, solve_at_given_wavelength
@@ -12,6 +10,16 @@ from .irradiance import SpectralIrradiance
 def solve_two_stream_model(
     model: InfiniteLayerModel,
 ) -> SpectralIrradiance:
+    """Solve the two-stream model and return an object containing the solution at all
+    specified wavelengths
+
+    Args (InfiniteLayerModel):
+        model: two-stream model parameters
+
+    Returns:
+        SpectralIrradiance: object containing the solution of the two-stream model at each wavelength
+    """
+
     upwelling = np.empty((model.z.size, model.wavelengths.size))
     downwelling = np.empty((model.z.size, model.wavelengths.size))
     if model.fast_solve:
@@ -38,5 +46,5 @@ def solve_two_stream_model(
             upwelling[:, i] = col_upwelling
             downwelling[:, i] = col_downwelling
     return SpectralIrradiance(
-        model.z, model.wavelengths, upwelling, downwelling, model.ice_base_index
+        model.z, model.wavelengths, upwelling, downwelling, model._ice_base_index
     )

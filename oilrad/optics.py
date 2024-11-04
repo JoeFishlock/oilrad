@@ -8,7 +8,7 @@ This is used to calculate the absorption coefficient of pure ice.
 To interpolate the data to other wavelengths should interpolate the log of the data
 linearly.
 
-Oil absorption calculated following Roche et al 2022 using given data for mass
+Oil absorption calculated following Redmond Roche et al 2022 using given data for mass
 absorption coefficient of oil in ice which is a function of wavelength and droplet radius
 """
 
@@ -79,8 +79,17 @@ def _calculate_ice_absorption_coefficient(wavelength_in_nm):
 
 
 def calculate_scattering(liquid_fraction: NDArray, ice_scattering_coefficient: float):
-    """Calculate scattering coefficient in ice and return zero in liquid
-    doesn't depend on wavelength
+    """Calculate scattering coefficient in ice and return zero in liquid.
+    (doesn't depend on wavelength)
+
+    Smoothly transitions from the ice_scattering_coefficient to zero in the liquid using a tanh function.
+
+    Args:
+        liquid_fraction (NDArray): liquid fraction as a function of depth
+        ice_scattering_coefficient (float): scattering coefficient of ice
+
+    Returns:
+        NDArray: scattering coefficient [1/m] as a function of depth
     """
 
     return ice_scattering_coefficient * np.tanh((1 - liquid_fraction) * 100)
@@ -113,6 +122,15 @@ def calculate_ice_oil_absorption_coefficient(
 
     The enahncement factor is an ad hoc correction for the two stream model to try and
     better match the results of redmondroche2022 which used an 8-stream model
+
+    Args:
+        wavelengths_in_nm (NDArray): wavelengths in nm
+        oil_mass_ratio (float): mass ratio of oil in ice in ng/g
+        droplet_radius_in_microns (float): median droplet radius in microns
+        absorption_enhancement_factor (float, optional): enhancement factor for absorption coefficient. Defaults to 1.0.
+
+    Returns:
+        NDArray: absorption coefficient in 1/m
     """
     ICE_DENSITY_ROCHE_2022 = 800  # in kg/m3
     mass_ratio_dimensionless = oil_mass_ratio * 1e-9
