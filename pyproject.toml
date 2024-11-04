@@ -8,16 +8,12 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.12"
-numpy = "^1.26.4"
-scipy = "^1.13.0"
+numpy = "^2.1.0"
+scipy = "^1.14.0"
 
 
-[tool.poetry.group.scripts.dependencies]
-matplotlib = "^3.8.4"
-
-
-[tool.poetry.group.profile.dependencies]
-snakeviz = "^2.2.0"
+[tool.poetry.group.tests.dependencies]
+pytest = "^8.3.3"
 
 [build-system]
 requires = ["poetry-core"]
