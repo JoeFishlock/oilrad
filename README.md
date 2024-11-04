@@ -4,7 +4,7 @@ Oilrad is a python package for solving a two-stream shortwave radiation transfer
 It solves the spectral two-stream equations for ice and seawater polluted with a mass concentration of oil droplets, where oil absorption is calculated from [1].
 Below is an example of spectral albedo computed for a range of oil mass ratios in a layer of sea ice.
 
-![Sea ice spectral albedo for ice containing droplets of Romashkino oil](https://raw.githubusercontent.com/JoeFishlock/oilrad/main/docs/example_spectral_albedo.svg)
+![Sea ice spectral albedo for ice containing droplets of Romashkino oil](https://github.com/JoeFishlock/oilrad/blob/40f616a5fce75f0dd3bebc9f55508cf4c827ae0f/docs/example_spectral_albedo.svg)
 
 ## Installation ##
 Oilrad is available on PyPI and can be installed with pip via
