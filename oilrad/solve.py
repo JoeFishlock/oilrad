@@ -37,4 +37,6 @@ def solve_two_stream_model(
             )
             upwelling[:, i] = col_upwelling
             downwelling[:, i] = col_downwelling
-    return SpectralIrradiance(model.z, model.wavelengths, upwelling, downwelling)
+    return SpectralIrradiance(
+        model.z, model.wavelengths, upwelling, downwelling, model.ice_base_index
+    )
