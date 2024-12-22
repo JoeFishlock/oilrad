@@ -62,10 +62,12 @@ def calculate_band_snow_transmittance(
 
 
 def calculate_band_SSL_albedo(SSL_depth: float, wavelength_band_index: int) -> float:
-    _decay_length = 0.02
-    return SSL_SPECTRAL_ALBEDOS[wavelength_band_index] * (
-        1 - np.exp(-SSL_depth / _decay_length)
-    )
+    if SSL_depth > 0:
+        return SSL_SPECTRAL_ALBEDOS[wavelength_band_index]
+    elif SSL_depth == 0:
+        return 0
+    else:
+        raise ValueError("SSL depth must be non-negative")
 
 
 def calculate_band_SSL_transmittance(
