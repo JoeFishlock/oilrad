@@ -13,9 +13,9 @@ import numpy as np
 from numpy.typing import NDArray
 from scipy.integrate import quad
 
+from .constants import PLANCK, LIGHTSPEED
 
-PLANCK = 6.62607015e-34  # Js
-LIGHTSPEED = 299792458  # m/s
+
 BOLTZMANN = 1.380649e-23  # J/K
 AU = 1.496e11  # m
 SUN_RADIUS = 6.95e8  # m

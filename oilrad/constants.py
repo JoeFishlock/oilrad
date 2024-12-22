@@ -1,6 +1,10 @@
 """Constants used in the program"""
 import numpy as np
 
+PLANCK = 6.62607015e-34  # Js
+LIGHTSPEED = 299792458  # m/s
+MOLE = 6.023e23
+
 # wavelength bands for six band model
 WAVELENGTH_BANDS = [
     (300, 400),
