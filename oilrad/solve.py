@@ -7,6 +7,10 @@ from .infinite_layer import InfiniteLayerModel, solve_at_given_wavelength
 from .six_band import SixBandModel, solve_a_wavelength_band
 from .irradiance import SpectralIrradiance, SixBandSpectralIrradiance
 from .constants import WAVELENGTH_BAND_INDICES
+from .top_surface import (
+    calculate_band_surface_albedo,
+    calculate_band_surface_transmittance,
+)
 
 
 def solve_two_stream_model(
@@ -60,12 +64,22 @@ def solve_two_stream_model(
             upwelling[:, index] = col_upwelling
             downwelling[:, index] = col_downwelling
 
+        ice_albedo = upwelling[-1, :]
+        surface_albedo = np.array(
+            [calculate_band_surface_albedo(model, i) for i in WAVELENGTH_BAND_INDICES]
+        )
+        surface_transmittance = np.array(
+            [
+                calculate_band_surface_transmittance(model, i)
+                for i in WAVELENGTH_BAND_INDICES
+            ]
+        )
+        albedo = surface_albedo + surface_transmittance * ice_albedo
         return SixBandSpectralIrradiance(
             model.z,
             upwelling,
             downwelling,
-            model.snow_depth,
-            model.SSL_depth,
+            albedo,
             model._ice_base_index,
         )
 

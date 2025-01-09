@@ -12,13 +12,12 @@ from scipy.integrate import solve_bvp
 
 from .constants import (
     WAVELENGTH_BANDS,
-    calculate_band_snow_transmittance,
-    calculate_band_SSL_transmittance,
 )
 from .optics import (
     calculate_ice_oil_absorption_coefficient,
     calculate_scattering,
 )
+from .top_surface import calculate_band_surface_transmittance
 
 
 @dataclass
@@ -53,8 +52,15 @@ class SixBandModel:
     ice_scattering_coefficient: float
     median_droplet_radius_in_microns: float
     absorption_enhancement_factor: float
-    SSL_depth: float
+
     snow_depth: float
+    snow_spectral_albedos: NDArray
+    snow_extinction_coefficients: NDArray
+
+    SSL_depth: float
+    SSL_spectral_albedos: NDArray
+    SSL_extinction_coefficients: NDArray
+
     liquid_fraction: Optional[NDArray] = None
 
     bands: ClassVar[List[Tuple[int, int]]] = WAVELENGTH_BANDS
@@ -104,9 +110,9 @@ def _get_ODE_fun(
 def _get_BC_fun(
     model: SixBandModel, wavelength_band_index: int
 ) -> Callable[[NDArray, NDArray], NDArray]:
-    surface_transmittance = calculate_band_snow_transmittance(
-        model.snow_depth, wavelength_band_index
-    ) * calculate_band_SSL_transmittance(model.SSL_depth, wavelength_band_index)
+    surface_transmittance = calculate_band_surface_transmittance(
+        model, wavelength_band_index
+    )
 
     def _BCs(F_bottom: NDArray, F_top: NDArray) -> NDArray:
         return np.array([F_top[1] - surface_transmittance, F_bottom[0]])
@@ -133,7 +139,7 @@ def solve_a_wavelength_band(
     if wavelength_band_index == 5:
         upwelling = np.zeros_like(model.z)
         downwelling = np.zeros_like(model.z)
-        downwelling[-1] = calculate_band_snow_transmittance(model.snow_depth, 5)
+        # downwelling[-1] = calculate_band_snow_transmittance(model.snow_depth, 5)
         return upwelling, downwelling
 
     fun = _get_ODE_fun(model, wavelength_band_index)

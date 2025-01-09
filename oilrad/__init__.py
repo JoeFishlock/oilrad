@@ -1,6 +1,11 @@
 """Two-stream shortwave radiative transfer model for sea ice containing oil droplets."""
 __version__ = "1.0.0"
 
+import numpy as np
+from numpy.typing import NDArray
+from pathlib import Path
+
+from oilrad.constants import WAVELENGTH_BANDS
 from .irradiance import (
     SpectralIrradiance,
     Irradiance,
@@ -12,3 +17,90 @@ from .spectra import BlackBodySpectrum
 from .infinite_layer import InfiniteLayerModel
 from .six_band import SixBandModel
 from .solve import solve_two_stream_model
+
+
+def _read_into_six_bands(
+    data_path: Path, interp_right=None, interp_left=None
+) -> NDArray:
+    """Read spectral data from csv file and calculate the average in each band."""
+    data = np.genfromtxt(data_path, delimiter=",", skip_header=1)
+    wavelengths = data[:, 0]
+    albedo = data[:, 1]
+    interpolated_wavelengths = np.linspace(300, 3000, 3000)
+    interpolated_albedo = np.interp(
+        interpolated_wavelengths,
+        wavelengths,
+        albedo,
+        right=interp_right,
+        left=interp_left,
+    )
+
+    band_albedo = []
+    for band in WAVELENGTH_BANDS:
+        left, right = band
+        in_band = (interpolated_wavelengths >= left) & (
+            interpolated_wavelengths <= right
+        )
+        band_albedo.append(np.mean(interpolated_albedo[in_band]))
+    return np.array(band_albedo)
+
+
+def _replace_last_value(array: NDArray, value: float) -> NDArray:
+    array[-1] = value
+    return array
+
+
+# Snow and SSL albedos and extinction coefficients from the literature averaged over
+# the six band model spectral bands
+DATADIR = Path(__file__).parent / "data/SnowSSL"
+_last_band_snow_albedo = 0.1
+SNOW_ALBEDOS = {
+    "grenfell2004": _read_into_six_bands(
+        DATADIR / "Grenfell2004Fig10aColdSnowAlbedo.csv", interp_right=0
+    ),
+    "grenfell1984": _read_into_six_bands(
+        DATADIR / "Grenfell1984Fig3SnowALbedoMay21.csv", interp_right=0
+    ),
+    # No data beyond 1000 nm
+    "verin2022": _replace_last_value(
+        _read_into_six_bands(DATADIR / "Verin2022Fig7aColdSnowAlbedo.csv"),
+        _last_band_snow_albedo,
+    ),
+    "light2022": _replace_last_value(
+        _read_into_six_bands(DATADIR / "Light2022Fig2ColdSnowAlbedo.csv"),
+        _last_band_snow_albedo,
+    ),
+}
+_large_extinction_value = 1000
+SNOW_EXTINCTION_COEFFICIENTS = {
+    "perovich1990": _replace_last_value(
+        _read_into_six_bands(DATADIR / "PEROVICH1990Fig2DrySnowExtinction.csv"),
+        _large_extinction_value,
+    ),
+    # replace UV and PAR values and use same as peroich1990 above this
+    "lebrun2023": np.array([7, 7, 7, 7, 127.7699531, _large_extinction_value]),
+}
+SSL_ALBEDOS = {
+    "smith2022_20": _read_into_six_bands(
+        DATADIR / "Smith2022Fig20720.csv", interp_right=0
+    ),
+    "smith2022_23": _read_into_six_bands(
+        DATADIR / "Smith2022Fig20723.csv", interp_right=0
+    ),
+    "smith2022_24": _read_into_six_bands(
+        DATADIR / "Smith2022Fig20724.csv", interp_right=0
+    ),
+    "smith2022_27": _read_into_six_bands(
+        DATADIR / "Smith2022Fig20727.csv", interp_right=0
+    ),
+    "light2022": _read_into_six_bands(
+        DATADIR / "Light2022Fig2BareIceAlbedo.csv", interp_right=0
+    ),
+}
+
+SSL_EXTINCTION_COEFFICIENTS = {
+    "perovich1990": _replace_last_value(
+        _read_into_six_bands(DATADIR / "PEROVICH1990Fig2SSLExtinction.csv"),
+        _large_extinction_value,
+    ),
+}

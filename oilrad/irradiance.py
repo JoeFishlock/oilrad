@@ -8,16 +8,11 @@ import numpy as np
 from numpy.typing import NDArray
 from scipy.integrate import trapezoid
 
-from oilrad.constants import (
+from .constants import (
     PLANCK,
     LIGHTSPEED,
     MOLE,
     CLOUDY_SKY_FRACTIONS,
-    WAVELENGTH_BAND_INDICES,
-    calculate_band_snow_albedo,
-    calculate_band_SSL_albedo,
-    calculate_band_snow_transmittance,
-    calculate_band_SSL_transmittance,
 )
 from .spectra import BlackBodySpectrum
 
@@ -78,8 +73,7 @@ class SixBandSpectralIrradiance:
     z: NDArray
     upwelling: NDArray
     downwelling: NDArray
-    snow_depth: float
-    SSL_depth: float
+    albedo: NDArray
 
     _ice_base_index: int = 0
 
@@ -87,45 +81,6 @@ class SixBandSpectralIrradiance:
     def net_irradiance(self) -> NDArray:
         """Calculate spectral net irradiance"""
         return self.downwelling - self.upwelling
-
-    @property
-    def albedo(self) -> NDArray:
-        """Calculate spectral albedo in each wavelength band
-
-        This includes the albedo of the snow and the SSL above the ice."""
-        ice_albedo = self.upwelling[-1, :]
-        snow_albedo = np.array(
-            [
-                calculate_band_snow_albedo(self.snow_depth, i)
-                for i in WAVELENGTH_BAND_INDICES
-            ]
-        )
-        SSL_albedo = np.array(
-            [
-                calculate_band_SSL_albedo(self.SSL_depth, i)
-                for i in WAVELENGTH_BAND_INDICES
-            ]
-        )
-        snow_transmittance = np.array(
-            [
-                calculate_band_snow_transmittance(self.snow_depth, i)
-                for i in WAVELENGTH_BAND_INDICES
-            ]
-        )
-        SSL_transmittance = np.array(
-            [
-                calculate_band_SSL_transmittance(self.SSL_depth, i)
-                for i in WAVELENGTH_BAND_INDICES
-            ]
-        )
-        albedo = np.empty_like(ice_albedo)
-        for i in WAVELENGTH_BAND_INDICES:
-            albedo[i] = (
-                snow_albedo[i]
-                + snow_transmittance[i] * SSL_albedo[i]
-                + snow_transmittance[i] * SSL_transmittance[i] * ice_albedo[i]
-            )
-        return albedo
 
     @property
     def transmittance(self) -> NDArray:
