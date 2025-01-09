@@ -16,6 +16,7 @@ from pathlib import Path
 import numpy as np
 from numpy.typing import NDArray
 from scipy.interpolate import LinearNDInterpolator
+from .constants import ICE_DENSITY_ROCHE_2022
 
 # Load Warrent data for pure ice absorption
 DATADIR = Path(__file__).parent / "data"
@@ -66,7 +67,7 @@ def _calculate_ice_imaginary_refractive_index(wavelength):
     return np.exp(interpolated_log_refractive_index)
 
 
-def _calculate_ice_absorption_coefficient(wavelength_in_nm):
+def calculate_ice_absorption_coefficient(wavelength_in_nm):
     """calculate ice absorption coefficient from Warren 2008 data at given
     wavelengths inputted in nano meters from interpolated imaginary refractive index
     data"""
@@ -100,7 +101,7 @@ def calculate_scattering(liquid_fraction: NDArray, ice_scattering_coefficient: f
 ############################
 
 
-def _Romashkino_MAC(wavelength_nm, droplet_radius_microns):
+def Romashkino_MAC(wavelength_nm, droplet_radius_microns):
     return np.where(
         wavelength_nm > 800, 0, interp(wavelength_nm, droplet_radius_microns)
     )
@@ -132,12 +133,11 @@ def calculate_ice_oil_absorption_coefficient(
     Returns:
         NDArray: absorption coefficient in 1/m
     """
-    ICE_DENSITY_ROCHE_2022 = 800  # in kg/m3
     mass_ratio_dimensionless = oil_mass_ratio * 1e-9
     return absorption_enhancement_factor * (
-        _calculate_ice_absorption_coefficient(wavelengths_in_nm)
+        calculate_ice_absorption_coefficient(wavelengths_in_nm)
         + mass_ratio_dimensionless
         * 1e3
         * ICE_DENSITY_ROCHE_2022
-        * _Romashkino_MAC(wavelengths_in_nm, droplet_radius_in_microns)
+        * Romashkino_MAC(wavelengths_in_nm, droplet_radius_in_microns)
     )

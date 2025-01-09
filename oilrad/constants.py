@@ -5,6 +5,8 @@ PLANCK = 6.62607015e-34  # Js
 LIGHTSPEED = 299792458  # m/s
 MOLE = 6.023e23
 
+ICE_DENSITY_ROCHE_2022 = 800  # in kg/m3
+
 # wavelength bands for six band model
 WAVELENGTH_BANDS = [
     (300, 400),

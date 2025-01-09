@@ -12,10 +12,13 @@ from scipy.integrate import solve_bvp
 
 from .constants import (
     WAVELENGTH_BANDS,
+    ICE_DENSITY_ROCHE_2022,
 )
 from .optics import (
     calculate_ice_oil_absorption_coefficient,
     calculate_scattering,
+    Romashkino_MAC,
+    calculate_ice_absorption_coefficient,
 )
 from .top_surface import calculate_band_surface_transmittance
 
@@ -73,6 +76,31 @@ class SixBandModel:
         # find the index of the ice ocean interface
         self._ice_base_index = np.argmax(self.liquid_fraction < 1)
 
+        # Generate band average ice absorption
+        UV_adjusted_bands = [(350, 400)] + self.bands[1:]  # Just average UV in 350-400
+        self.band_average_ice_absorption = np.array(
+            [
+                np.mean(
+                    calculate_ice_absorption_coefficient(
+                        np.linspace(band[0], band[1], 1000)
+                    )
+                )
+                for band in UV_adjusted_bands
+            ]
+        )
+        # Generate band average oil MAC
+        self.band_average_Romashkino_MAC = np.array(
+            [
+                np.mean(
+                    Romashkino_MAC(
+                        np.linspace(band[0], band[1], 1000),
+                        self.median_droplet_radius_in_microns,
+                    )
+                )
+                for band in UV_adjusted_bands
+            ]
+        )
+
 
 def _get_ODE_fun(
     model: SixBandModel, wavelength_band_index: int
@@ -91,11 +119,13 @@ def _get_ODE_fun(
         return np.interp(z, model.z, model.oil_mass_ratio, left=np.nan, right=np.nan)
 
     def k(z: NDArray) -> NDArray:
-        return calculate_ice_oil_absorption_coefficient(
-            wavelengths[wavelength_band_index],
-            oil_mass_ratio=oil_func(z),
-            droplet_radius_in_microns=model.median_droplet_radius_in_microns,
-            absorption_enhancement_factor=model.absorption_enhancement_factor,
+        mass_ratio_dimensionless = oil_func(z) * 1e-9
+        return model.absorption_enhancement_factor * (
+            model.band_average_ice_absorption[wavelength_band_index]
+            + mass_ratio_dimensionless
+            * 1e3
+            * ICE_DENSITY_ROCHE_2022
+            * model.band_average_Romashkino_MAC[wavelength_band_index]
         )
 
     def _ODE_fun(z: NDArray, F: NDArray) -> NDArray:
