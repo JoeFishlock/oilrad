@@ -15,12 +15,11 @@ from .constants import (
     ICE_DENSITY_ROCHE_2022,
 )
 from .optics import (
-    calculate_ice_oil_absorption_coefficient,
     calculate_scattering,
     Romashkino_MAC,
     calculate_ice_absorption_coefficient,
 )
-from .top_surface import calculate_band_surface_transmittance
+from .top_surface import calculate_band_SSL_albedo, calculate_band_surface_transmittance
 
 
 @dataclass
@@ -105,10 +104,6 @@ class SixBandModel:
 def _get_ODE_fun(
     model: SixBandModel, wavelength_band_index: int
 ) -> Callable[[NDArray, NDArray], NDArray]:
-
-    # wavelengths at which to evaluate oil and ice absorption
-    wavelengths = np.array([350, 450, 550, 650, 950])
-
     def r(z: NDArray) -> NDArray:
         return calculate_scattering(
             np.interp(z, model.z, model.liquid_fraction, left=np.nan, right=np.nan),
@@ -164,12 +159,23 @@ def solve_a_wavelength_band(
     Raises:
         RuntimeError: if the solver does not converge
     """
+    # Add radiaition absorbed in SSL into the top of the ice
+    if model.snow_depth == 0:
+        absorbed_in_SSL = (
+            1
+            - calculate_band_SSL_albedo(model, wavelength_band_index)
+            - calculate_band_surface_transmittance(model, wavelength_band_index)
+        )
+    else:
+        absorbed_in_SSL = 0
+
     # In high wavelength band just assume all radiation is absorbed at ice surface
-    # (including in SSL)
     if wavelength_band_index == 5:
         upwelling = np.zeros_like(model.z)
         downwelling = np.zeros_like(model.z)
-        # downwelling[-1] = calculate_band_snow_transmittance(model.snow_depth, 5)
+        downwelling[-1] = (
+            calculate_band_surface_transmittance(model, 5) + absorbed_in_SSL
+        )
         return upwelling, downwelling
 
     fun = _get_ODE_fun(model, wavelength_band_index)
@@ -183,4 +189,8 @@ def solve_a_wavelength_band(
     )
     if not solution.success:
         raise RuntimeError(f"{solution.message}")
-    return solution.sol(model.z)[0], solution.sol(model.z)[1]
+
+    upwelling = solution.sol(model.z)[0]
+    downwelling = solution.sol(model.z)[1]
+    downwelling[-1] = downwelling[-1] + absorbed_in_SSL
+    return upwelling, downwelling
