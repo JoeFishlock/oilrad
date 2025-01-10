@@ -70,6 +70,10 @@ SNOW_ALBEDOS = {
         _read_into_six_bands(DATADIR / "Light2022Fig2ColdSnowAlbedo.csv"),
         _last_band_snow_albedo,
     ),
+    "light2022wet": _replace_last_value(
+        _read_into_six_bands(DATADIR / "Light2022Fig2MeltingSnowAlbedo.csv"),
+        _last_band_snow_albedo,
+    ),
 }
 _large_extinction_value = 1000
 SNOW_EXTINCTION_COEFFICIENTS = {
@@ -79,6 +83,11 @@ SNOW_EXTINCTION_COEFFICIENTS = {
     ),
     # replace UV and PAR values and use same as peroich1990 above this
     "lebrun2023": np.array([7, 7, 7, 7, 127.7699531, _large_extinction_value]),
+    "perovich1990wet": _replace_last_value(
+        _read_into_six_bands(DATADIR / "PEROVICH1990Fig2MeltingSnowExtinction.csv"),
+        _large_extinction_value,
+    ),
+    "lebrun2023wet": np.array([5, 5, 5, 5, 88.83449726, _large_extinction_value]),
 }
 SSL_ALBEDOS = {
     "smith2022_20": _read_into_six_bands(
