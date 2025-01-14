@@ -1,21 +1,26 @@
 """Provide a function to solve the two-stream model in the case of continuously varying
 optical properties which implements a faster solve approximation for long wavelengths if
-the fast_solve parameter of the model is set to True."""
+the fast_solve parameter of the model is set to True for the continuous wavelength
+case."""
 
 import numpy as np
-from .infinite_layer import InfiniteLayerModel, solve_at_given_wavelength
-from .six_band import SixBandModel, solve_a_wavelength_band
-from .irradiance import SpectralIrradiance, SixBandSpectralIrradiance
+
+from .cts_wavelength import (
+    CtsWavelengthModel,
+    solve_at_given_wavelength,
+    CtsWavelengthSpectralIrradiance,
+)
 from .constants import WAVELENGTH_BAND_INDICES
-from .top_surface import (
+from .six_band import SixBandModel, solve_a_wavelength_band, SixBandSpectralIrradiance
+from .six_band.top_surface import (
     calculate_band_surface_albedo,
     calculate_band_surface_transmittance,
 )
 
 
 def solve_two_stream_model(
-    model: InfiniteLayerModel | SixBandModel,
-) -> SpectralIrradiance | SixBandSpectralIrradiance:
+    model: CtsWavelengthModel | SixBandModel,
+) -> CtsWavelengthSpectralIrradiance | SixBandSpectralIrradiance:
     """Solve the two-stream model and return an object containing the solution at all
     specified wavelengths
 
@@ -26,7 +31,7 @@ def solve_two_stream_model(
         SpectralIrradiance | SixBandSpectralIrradiance: object containing the solution of the two-stream model at each wavelength
     """
 
-    if isinstance(model, InfiniteLayerModel):
+    if isinstance(model, CtsWavelengthModel):
         upwelling = np.empty((model.z.size, model.wavelengths.size))
         downwelling = np.empty((model.z.size, model.wavelengths.size))
         if model.fast_solve:
@@ -52,7 +57,7 @@ def solve_two_stream_model(
                 )
                 upwelling[:, i] = col_upwelling
                 downwelling[:, i] = col_downwelling
-        return SpectralIrradiance(
+        return CtsWavelengthSpectralIrradiance(
             model.z, model.wavelengths, upwelling, downwelling, model._ice_base_index
         )
 
@@ -83,5 +88,4 @@ def solve_two_stream_model(
             model._ice_base_index,
         )
 
-    else:
-        raise NotImplementedError("Model type not recognized")
+    raise NotImplementedError("Model type not recognized")

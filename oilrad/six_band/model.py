@@ -10,11 +10,11 @@ import numpy as np
 from numpy.typing import NDArray
 from scipy.integrate import solve_bvp
 
-from .constants import (
+from ..constants import (
     WAVELENGTH_BANDS,
     ICE_DENSITY_ROCHE_2022,
 )
-from .optics import (
+from ..optics import (
     calculate_scattering,
     Romashkino_MAC,
     calculate_ice_absorption_coefficient,
@@ -26,10 +26,17 @@ from .top_surface import calculate_band_SSL_albedo, calculate_band_surface_trans
 class SixBandModel:
     """Class containing all the necessary parameters to solve the two-stream shortwave
     radiative transfer model in a domain with continuously varying liquid fraction and
-    oil mass ratio.
+    oil mass ratio with optical properties averaged in the six spectral bands with
+    wavelengths:
 
-    Irradiances are scaled by the incident downwelling in each spectral band with
-    treatment of any snow layer and surface scattering layer (SSL) handled by the model.
+    300-400nm
+    400-500nm
+    500-600nm
+    600-700nm
+    700-1200nm
+    1200-3000nm
+
+    Irradiances are scaled by the incident downwelling in each spectral band.
 
     If no array is provided for liquid fraction, it is assumed to be zero everywhere.
     This corresponds to a completely frozen domain.
@@ -40,12 +47,21 @@ class SixBandModel:
 
     Args:
         z (NDArray): vertical grid in meters
-        oil_mass_ratio (NDArray): array of oil mass ratio in ng oil / g ice on the vertical grid
+        oil_mass_ratio (NDArray): array of oil mass ratio in ng oil / g ice on the
+            vertical grid
         ice_scattering_coefficient (float): scattering coefficient for ice in 1/m
         median_droplet_radius_in_microns (float): median droplet radius in microns
-        absorption_enhancement_factor (float): enhancement factor for oil absorption appropriate for the two-stream model
-        SSL_depth (float): depth of the surface scattering layer in meters
+        absorption_enhancement_factor (float): enhancement factor for oil absorption
+            appropriate for the two-stream model
         snow_depth (float): snow depth in meters
+        snow_spectral_albedos (NDArray): spectral albedos for the snow layer in each
+            band
+        snow_extinction_coefficients (NDArray): spectral extinction coefficient for the
+            snow layer in each band
+        SSL_depth (float): depth of the surface scattering layer in meters
+        SSL_spectral_albedos (NDArray): spectral albedos for the SSL in each band
+        SSL_extinction_coefficients (NDArray): spectral extinction coefficients for the
+            SSL in each band
         liquid_fraction (Optional[NDArray]): liquid fraction array on the vertical grid
     """
 
@@ -148,7 +164,7 @@ def _get_BC_fun(
 def solve_a_wavelength_band(
     model: SixBandModel, wavelength_band_index: int
 ) -> tuple[NDArray, NDArray]:
-    """Use the scipy solve_bcp function to solve the two-stream model as a function of
+    """Use the scipy solve_bvp function to solve the two-stream model as a function of
     depth for each wavelength band.
 
     Args:

@@ -13,15 +13,10 @@ import numpy as np
 from numpy.typing import NDArray
 from scipy.integrate import quad
 
-from .constants import PLANCK, LIGHTSPEED
+from .constants import PLANCK, LIGHTSPEED, BOLTZMANN, AU, SUN_RADIUS
 
 
-BOLTZMANN = 1.380649e-23  # J/K
-AU = 1.496e11  # m
-SUN_RADIUS = 6.95e8  # m
-
-
-PLANCK_FUNCTION = lambda L, T: (2 * PLANCK * LIGHTSPEED**2 / L**5) * (
+_solar_planck_function = lambda L, T: (2 * PLANCK * LIGHTSPEED**2 / L**5) * (
     1 / (np.exp(PLANCK * LIGHTSPEED / (BOLTZMANN * L * T)) - 1)
 )
 
@@ -57,7 +52,7 @@ class BlackBodySpectrum:
         https://www.oceanopticsbook.info/view/light-and-radiometry/level-2/blackbody-radiation
         """
         return (
-            PLANCK_FUNCTION(wavelength_in_nm * 1e-9, T=5782)
+            _solar_planck_function(wavelength_in_nm * 1e-9, T=5782)
             * (SUN_RADIUS**2 / AU**2)
             * np.pi
             * 1e-9

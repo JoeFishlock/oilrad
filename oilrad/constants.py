@@ -6,6 +6,10 @@ from pathlib import Path
 PLANCK = 6.62607015e-34  # Js
 LIGHTSPEED = 299792458  # m/s
 MOLE = 6.023e23
+BOLTZMANN = 1.380649e-23  # J/K
+AU = 1.496e11  # m
+SUN_RADIUS = 6.95e8  # m
+
 
 ICE_DENSITY_ROCHE_2022 = 800  # in kg/m3
 

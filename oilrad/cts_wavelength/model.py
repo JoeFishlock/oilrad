@@ -1,6 +1,7 @@
-"""Solve the two-stream shortwave radiation model.
+"""Solve the two-stream shortwave radiation model for a layer of ice with
+constant optical properties aside from absorption varying due to the oil mass ratio.
 
-Infinite layer refers to the continuous variation of the optical properties with depth.
+Arbitrary wavelength resolution
 """
 
 from dataclasses import dataclass
@@ -8,14 +9,14 @@ from typing import Callable, Optional
 import numpy as np
 from numpy.typing import NDArray
 from scipy.integrate import solve_bvp
-from .optics import (
+from ..optics import (
     calculate_ice_oil_absorption_coefficient,
     calculate_scattering,
 )
 
 
 @dataclass
-class InfiniteLayerModel:
+class CtsWavelengthModel:
     """Class containing all the necessary parameters to solve the two-stream shortwave
     radiative transfer model in a domain with continuously varying liquid fraction and
     oil mass ratio.
@@ -59,7 +60,7 @@ class InfiniteLayerModel:
 
 
 def _get_ODE_fun(
-    model: InfiniteLayerModel, wavelength: float
+    model: CtsWavelengthModel, wavelength: float
 ) -> Callable[[NDArray, NDArray], NDArray]:
     def r(z: NDArray) -> NDArray:
         return calculate_scattering(
@@ -93,11 +94,11 @@ def _BCs(F_bottom, F_top):
 
 
 def solve_at_given_wavelength(model, wavelength: float) -> tuple[NDArray, NDArray]:
-    """Use the scipy solve_bcp function to solve the two-stream model as a function of
+    """Use the scipy solve_bvp function to solve the two-stream model as a function of
     depth for a given wavelenght value.
 
     Args:
-        model (InfiniteLayerModel): model parameters
+        model (CtsWavelengthModel): model parameters
         wavelength (float): wavelength in nm
     Returns:
         tuple[NDArray, NDArray]: upwelling and downwelling irradiances as functions of depth
