@@ -21,7 +21,7 @@ import oilrad as oi
 # set up model parameters
 ICE_DEPTH = 0.8
 depth = np.linspace(-1.5, 0, 1000)
-model = oi.InfiniteLayerModel(
+model = oi.CtsWavelengthModel(
     z=depth,
     wavelengths=np.geomspace(350, 3000, 100),
     oil_mass_ratio=np.full_like(depth, 1000),
