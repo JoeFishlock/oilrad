@@ -1,3 +1,4 @@
+"""Calculate surface transmittance for six band model through a snow layer and SSL"""
 import numpy as np
 
 
