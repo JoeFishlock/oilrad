@@ -72,7 +72,7 @@ SNOW_ALBEDOS = {
         DATADIR / "Grenfell2004Fig10aColdSnowAlbedo.csv", interp_right=0
     ),
     "grenfell1984": _read_into_six_bands(
-        DATADIR / "Grenfell1984Fig3SnowALbedoMay21.csv", interp_right=0
+        DATADIR / "Grenfell1984Fig3SnowAlbedoMay21.csv", interp_right=0
     ),
     # No data beyond 1000 nm
     "verin2022": _replace_last_value(

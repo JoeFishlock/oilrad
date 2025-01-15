@@ -1,5 +1,5 @@
 """Two-stream shortwave radiative transfer model for sea ice containing oil droplets."""
-__version__ = "2.0.0"
+__version__ = "2.0.1"
 
 from .constants import (
     WAVELENGTH_BANDS,
