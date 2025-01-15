@@ -110,13 +110,13 @@ SSL_ALBEDOS = {
 _large_extinction_value = 1000
 SNOW_EXTINCTION_COEFFICIENTS = {
     "perovich1990": _replace_last_value(
-        _read_into_six_bands(DATADIR / "PEROVICH1990Fig2DrySnowExtinction.csv"),
+        _read_into_six_bands(DATADIR / "Perovich1990Fig2DrySnowExtinction.csv"),
         _large_extinction_value,
     ),
     # replace UV and PAR values and use same as peroich1990 above this
     "lebrun2023": np.array([7, 7, 7, 7, 127.7699531, _large_extinction_value]),
     "perovich1990wet": _replace_last_value(
-        _read_into_six_bands(DATADIR / "PEROVICH1990Fig2MeltingSnowExtinction.csv"),
+        _read_into_six_bands(DATADIR / "Perovich1990Fig2MeltingSnowExtinction.csv"),
         _large_extinction_value,
     ),
     "lebrun2023wet": np.array([5, 5, 5, 5, 88.83449726, _large_extinction_value]),
@@ -124,7 +124,7 @@ SNOW_EXTINCTION_COEFFICIENTS = {
 
 SSL_EXTINCTION_COEFFICIENTS = {
     "perovich1990": _replace_last_value(
-        _read_into_six_bands(DATADIR / "PEROVICH1990Fig2SSLExtinction.csv"),
+        _read_into_six_bands(DATADIR / "Perovich1990Fig2SSLExtinction.csv"),
         _large_extinction_value,
     ),
 }
